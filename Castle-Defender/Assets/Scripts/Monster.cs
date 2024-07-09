@@ -8,6 +8,8 @@ public class Monster : MonoBehaviour
     public float speed;
     public float health;
 
+    public int difficulty = 0;
+
     public Vector3 positionOfTarget;
 
     public GameObject drop;

@@ -246,10 +246,10 @@ MonoBehaviour:
   timeBetweenSpawns: 5
   currentEvadedTime: 0
   bounds:
-    left: -10
-    right: 10
-    top: 10
-    bottom: -10
+    left: -50
+    right: 50
+    bottom: -50
+    top: 50
   monsterPrefab: {fileID: 1314951755837579314, guid: 6c7354de08c4fb34981106fb2225e426, type: 3}
 --- !u!4 &796038039
 Transform:
