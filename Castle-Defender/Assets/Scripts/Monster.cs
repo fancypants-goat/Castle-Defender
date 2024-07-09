@@ -10,10 +10,14 @@ public class Monster : MonoBehaviour
 
     public int difficulty = 0;
 
-    public Vector3 positionOfTarget;
+    private GameObject Target;
 
     public GameObject drop;
 
+    private void Start() 
+    {
+        Target = GameObject.FindGameObjectWithTag("Kingdom");
+    }
     private void MoveMonsterTowardsPosition (Vector3 target) {
         // calculate the distance between self and the target
         Vector3 delta = target - transform.position;
@@ -56,6 +60,6 @@ public class Monster : MonoBehaviour
     void Update()
     {
         // move the monster
-        MoveMonsterTowardsPosition(positionOfTarget);
+        MoveMonsterTowardsPosition(Target.transform.position);
     }
 }
