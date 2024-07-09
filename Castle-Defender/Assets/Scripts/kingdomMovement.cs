@@ -16,6 +16,7 @@ public class kingdomMovement : MonoBehaviour
     {
         Move();
     }
+
     void Move()
     {
         //Inputs
@@ -25,6 +26,9 @@ public class kingdomMovement : MonoBehaviour
         //movement
         float currentSpeedX = maxmoveSpeed * movement.x * Time.deltaTime;
         float currentSpeedY = maxmoveSpeed * movement.y * Time.deltaTime;
-        tf.position = tf.position + new Vector3(currentSpeedX,currentSpeedY);
+
+        // updated tf.position = tf.position + new Vector3(currentSpeedX, currentSpeedY);
+        // this does the same thing but shorter
+        tf.Translate(new Vector3(currentSpeedX,currentSpeedY));
     }
 }
