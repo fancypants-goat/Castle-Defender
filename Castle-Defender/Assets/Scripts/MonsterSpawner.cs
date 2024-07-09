@@ -15,6 +15,18 @@ public class MonsterSpawner : MonoBehaviour
     [Space]
     public GameObject monsterPrefab;
 
+    void Start() {
+        Vector2 topLeft = new Vector2(bounds.left, bounds.top);
+        Vector2 topRight = new Vector2(bounds.right, bounds.top);
+        Vector2 bottomLeft = new(bounds.left, bounds.bottom);
+        Vector2 bottomRight = new(bounds.right, bounds.bottom);
+
+        Debug.DrawLine(topLeft, topRight, Color.green);
+        Debug.DrawLine(topRight, bottomRight, Color.green);
+        Debug.DrawLine(bottomRight, bottomLeft, Color.green);
+        Debug.DrawLine(bottomLeft, topLeft, Color.green);
+    }
+
     private void SpawnMonster() {
         // make sure that monsterPrefab is assigned
         if (monsterPrefab == null) return;
@@ -31,6 +43,16 @@ public class MonsterSpawner : MonoBehaviour
 
 
     void Update() {
+        
+        Vector2 topLeft = new Vector2(bounds.left, bounds.top);
+        Vector2 topRight = new Vector2(bounds.right, bounds.top);
+        Vector2 bottomLeft = new(bounds.left, bounds.bottom);
+        Vector2 bottomRight = new(bounds.right, bounds.bottom);
+
+        Debug.DrawLine(topLeft, topRight, Color.green);
+        Debug.DrawLine(topRight, bottomRight, Color.green);
+        Debug.DrawLine(bottomRight, bottomLeft, Color.green);
+        Debug.DrawLine(bottomLeft, topLeft, Color.green);
         // add the time between this frame and last frame to currentEvadedTime
         currentEvadedTime += Time.deltaTime;
 
