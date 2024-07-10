@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class MonsterSpawner : MonoBehaviour
 {
-    public float timeBetweenSpawns;
-
-    [SerializeField]
-    private float currentEvadedTime = 0f;
 
     [Space]
     public LevelBounds bounds;
@@ -25,6 +21,15 @@ public class MonsterSpawner : MonoBehaviour
         Debug.DrawLine(topRight, bottomRight, Color.green);
         Debug.DrawLine(bottomRight, bottomLeft, Color.green);
         Debug.DrawLine(bottomLeft, topLeft, Color.green);
+
+        // chooses the amount of enemy to be spawned
+        int enemySpawnAmount = Random.Range(10,21); // Range numbers are placeholders for now
+        // and runs the function that amount of time
+
+        for (int i = 0; i < enemySpawnAmount; i++)
+        {
+            SpawnMonster();
+        }
     }
 
     private void SpawnMonster() {
@@ -53,15 +58,6 @@ public class MonsterSpawner : MonoBehaviour
         Debug.DrawLine(topRight, bottomRight, Color.green);
         Debug.DrawLine(bottomRight, bottomLeft, Color.green);
         Debug.DrawLine(bottomLeft, topLeft, Color.green);
-        // add the time between this frame and last frame to currentEvadedTime
-        currentEvadedTime += Time.deltaTime;
-
-        // check if currentEvadedTime is more then timeBetweenSpawns
-        // if true: spawn a new monster
-        if (currentEvadedTime > timeBetweenSpawns) {
-            currentEvadedTime = 0f;
-            SpawnMonster();
-        }
     }
 }
 

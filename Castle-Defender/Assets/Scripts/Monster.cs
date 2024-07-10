@@ -10,6 +10,8 @@ public class Monster : MonoBehaviour
 
     public int difficulty = 0;
 
+    [SerializeField] private float attackRadius;
+
     private GameObject Target;
 
     public GameObject drop;
@@ -29,7 +31,12 @@ public class Monster : MonoBehaviour
         // * delta determines the direction this object should be moved in
         transform.Translate(speed * Time.deltaTime * delta);
     }
-
+    void OnDrawGizmos()
+    {
+        // shows the distance in which a monster attacks
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRadius);
+    }
     public void KillMonster () {
         // destroy this gameObject
         Destroy(gameObject);
@@ -59,7 +66,10 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
-        // move the monster
-        MoveMonsterTowardsPosition(Target.transform.position);
+        // move the monster if within attack radius 
+        if (Vector2.Distance(transform.position, Target.transform.position) < attackRadius)
+        {
+            MoveMonsterTowardsPosition(Target.transform.position);
+        }
     }
 }
