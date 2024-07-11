@@ -16,10 +16,10 @@ public class WorkerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TargerDecider();
+        TargetDecider();
     }
 
-    void TargerDecider()
+    void TargetDecider()
     {
         foreach (var worker in selectedWorkers)
         {

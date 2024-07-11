@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Resource : MonoBehaviour
+public class ResourceSource : MonoBehaviour
 {
     public Vector3 target;
     private WorkerManager workerManager;

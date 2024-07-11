@@ -441,15 +441,15 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 684667134}
   m_CullTransparentMesh: 1
---- !u!4 &858167587 stripped
+--- !u!4 &1145972273 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 8586216078805671207, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-  m_PrefabInstance: {fileID: 7816251996810730000}
+  m_CorrespondingSourceObject: {fileID: 3476789061596666132, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+  m_PrefabInstance: {fileID: 2073990954}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1258043674 stripped
+--- !u!114 &1145972274 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8902008404670067902, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-  m_PrefabInstance: {fileID: 7816251996810730000}
+  m_CorrespondingSourceObject: {fileID: 9074198366150649552, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+  m_PrefabInstance: {fileID: 2073990954}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -501,11 +501,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e347d910288ad6f4c91b0a73b752b330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceManager: {fileID: 1258043674}
+  resourceManager: {fileID: 1145972274}
   cursor: {fileID: 32599716}
   cursorSpriteRenderer: {fileID: 32599717}
   expansion: {fileID: 6834006752241240086, guid: 89a08406b059d1b4abc2a1a7462c4b86, type: 3}
-  kingdom: {fileID: 858167587}
+  kingdom: {fileID: 1145972273}
   isBuilding: 0
   canBuildOnSelectedGridPosition: 0
   StartPrice: 1
@@ -769,7 +769,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &7816251996810730000
+--- !u!1001 &2073990954
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -777,61 +777,53 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7697583622312021128, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-      propertyPath: m_Name
-      value: Kingdom
-      objectReference: {fileID: 0}
-    - target: {fileID: 8282683184158777214, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0.30588236
-      objectReference: {fileID: 0}
-    - target: {fileID: 8282683184158777214, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0.4039216
-      objectReference: {fileID: 0}
-    - target: {fileID: 8282683184158777214, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0.13725491
-      objectReference: {fileID: 0}
-    - target: {fileID: 8586216078805671207, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+    - target: {fileID: 3476789061596666132, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8586216078805671207, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+    - target: {fileID: 3476789061596666132, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8586216078805671207, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+    - target: {fileID: 3476789061596666132, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8586216078805671207, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+    - target: {fileID: 3476789061596666132, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8586216078805671207, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+    - target: {fileID: 3476789061596666132, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8586216078805671207, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+    - target: {fileID: 3476789061596666132, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8586216078805671207, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+    - target: {fileID: 3476789061596666132, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8586216078805671207, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+    - target: {fileID: 3476789061596666132, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8586216078805671207, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+    - target: {fileID: 3476789061596666132, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8586216078805671207, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+    - target: {fileID: 3476789061596666132, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976056266937331031, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: m_Name
+      value: Kingdom
+      objectReference: {fileID: 0}
+    - target: {fileID: 8741284157082272667, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: orthographic size
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -842,8 +834,8 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 7816251996810730000}
   - {fileID: 77968559}
+  - {fileID: 2073990954}
   - {fileID: 1569072110}
   - {fileID: 32599718}
   - {fileID: 1373975876}
