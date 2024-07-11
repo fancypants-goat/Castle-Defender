@@ -495,6 +495,7 @@ MonoBehaviour:
   expansion: {fileID: 6834006752241240086, guid: 89a08406b059d1b4abc2a1a7462c4b86, type: 3}
   kingdom: {fileID: 858167587}
   isBuilding: 0
+  canBuildOnSelectedGridPosition: 0
 --- !u!1 &1375748231
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,14 +638,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1590680071462961661, guid: 4f52204570ab89c49b2caa0aeb2625a8, type: 3}
-      propertyPath: bounds.left
-      value: -50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1590680071462961661, guid: 4f52204570ab89c49b2caa0aeb2625a8, type: 3}
-      propertyPath: bounds.right
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 4866725552661438591, guid: 4f52204570ab89c49b2caa0aeb2625a8, type: 3}
       propertyPath: m_Name
       value: MobSpawner
