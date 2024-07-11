@@ -15,6 +15,9 @@ public class CameraZoomManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        camera.orthographicSize += amountPerZoom * Input.GetAxis("Mouse ScrollWheel");
+        if (camera.orthographicSize >= 2)
+        {
+            camera.orthographicSize += amountPerZoom * Input.GetAxis("Mouse ScrollWheel");
+        }
     }
 }
