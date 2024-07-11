@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    public ResourceManager resourceManager;
+
+    [Space]
+
     public float speed;
     public float health;
 
@@ -14,7 +18,8 @@ public class Monster : MonoBehaviour
 
     private GameObject Target;
 
-    public GameObject drop;
+    public Drop[] drops;
+
 
     private void Start() 
     {
@@ -50,11 +55,9 @@ public class Monster : MonoBehaviour
         DropItems();
     }
     public void DropItems() {
-        // check if drop is actually assigned
-        if (drop == null) return;
-
-        // create a new instance of the drop prefab at this position
-        Instantiate(drop, transform.position, Quaternion.identity);
+        foreach (Drop drop in drops) {
+            resourceManager.AddResource(drop);
+        }
     }
 
     // TEMPORARY
@@ -77,4 +80,10 @@ public class Monster : MonoBehaviour
             MoveMonsterTowardsPosition(Target.transform.position);
         }
     }
+}
+
+[System.Serializable]
+public class Drop
+{
+    public int amount;
 }

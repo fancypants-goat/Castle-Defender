@@ -8,12 +8,19 @@ using UnityEngine;
 
 public class BuildManager : MonoBehaviour
 {
+    public ResourceManager resourceManager;
+    [Space]
     [SerializeField] private GameObject cursor;
     [SerializeField] private SpriteRenderer cursorSpriteRenderer;
     [SerializeField] private GameObject expansion;
     [SerializeField] private Transform kingdom;
     [SerializeField] private bool isBuilding;
     [SerializeField] private bool canBuildOnSelectedGridPosition;
+
+    [Space]
+    [SerializeField] private float StartPrice;
+    [SerializeField] private float PriceMultiplier;
+    [Space]
     private float cooldown;
     public HashSet<Expansion> expansions = new() {
         new Expansion(Vector3.zero),
@@ -52,16 +59,10 @@ public class BuildManager : MonoBehaviour
     private Vector3 mousePos;
     private Vector3 relativeMousePos;
     void Update() 
-    {
-        
-        // checks if mouse is within screen
-        if (Input.mousePosition.x <= Screen.width && Input.mousePosition.x >= 0 &&
-            Input.mousePosition.y <= Screen.height && Input.mousePosition.y >= 0)
-        { 
-            // get the mouseposition relative to the world
-            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = 0;
-        }
+    { 
+        // get the mouseposition relative to the world
+         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
         
         if (isBuilding) {    
             // calculates the difference between mouse and main kingdom
@@ -97,6 +98,11 @@ public class BuildManager : MonoBehaviour
         // if the left mouse button is pressed and cooldown is less then or equals to 0
         if (Input.GetMouseButton(0) && cooldown <= 0 && canBuildOnSelectedGridPosition)
         {
+            float cost = StartPrice + (PriceMultiplier * expansions.Count);
+            if (resourceManager.resources < cost) return;
+
+            resourceManager.resources -= cost;
+
             // creating a new expansion at the position of the cursor
             // this also sticks the expansion to a grid using Mathf.RoundToInt()
             Instantiate(expansion, kingdom.position + relativeMousePos, Quaternion.identity, kingdom);
@@ -116,7 +122,7 @@ public class BuildManager : MonoBehaviour
 
     void CursorColorCheck()
     {
-        if (canBuildOnSelectedGridPosition)
+        if (canBuildOnSelectedGridPosition && (StartPrice + (PriceMultiplier * expansions.Count)) <= resourceManager.resources)
         {
             cursorSpriteRenderer.color = Color.green;
         }

@@ -446,6 +446,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8586216078805671207, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
   m_PrefabInstance: {fileID: 7816251996810730000}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1258043674 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8902008404670067902, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+  m_PrefabInstance: {fileID: 7816251996810730000}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0da950c48251864f8914341e523c66d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1373975875
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,12 +501,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e347d910288ad6f4c91b0a73b752b330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resourceManager: {fileID: 1258043674}
   cursor: {fileID: 32599716}
   cursorSpriteRenderer: {fileID: 32599717}
   expansion: {fileID: 6834006752241240086, guid: 89a08406b059d1b4abc2a1a7462c4b86, type: 3}
   kingdom: {fileID: 858167587}
   isBuilding: 0
   canBuildOnSelectedGridPosition: 0
+  StartPrice: 1
+  PriceMultiplier: 0.25
 --- !u!1 &1375748231
 GameObject:
   m_ObjectHideFlags: 0
