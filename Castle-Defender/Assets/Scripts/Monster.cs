@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    public ResourceManager resourceManager;
+    private ResourceManager resourceManager;
 
-    [Space]
 
     public float speed;
     public float health;
@@ -18,12 +17,13 @@ public class Monster : MonoBehaviour
 
     private GameObject Target;
 
-    public Drop[] drops;
+    public Resource[] drops;
 
 
     private void Start() 
     {
         Target = GameObject.FindGameObjectWithTag("Kingdom");
+        resourceManager = FindObjectOfType<ResourceManager>();
     }
 
     
@@ -55,7 +55,7 @@ public class Monster : MonoBehaviour
         DropItems();
     }
     public void DropItems() {
-        foreach (Drop drop in drops) {
+        foreach (Resource drop in drops) {
             resourceManager.AddResource(drop);
         }
     }
@@ -80,10 +80,4 @@ public class Monster : MonoBehaviour
             MoveMonsterTowardsPosition(Target.transform.position);
         }
     }
-}
-
-[System.Serializable]
-public class Drop
-{
-    public int amount;
 }

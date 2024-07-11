@@ -98,10 +98,10 @@ public class BuildManager : MonoBehaviour
         // if the left mouse button is pressed and cooldown is less then or equals to 0
         if (Input.GetMouseButton(0) && cooldown <= 0 && canBuildOnSelectedGridPosition)
         {
-            float cost = StartPrice + (PriceMultiplier * expansions.Count);
-            if (resourceManager.resources < cost) return;
+            int cost = Mathf.FloorToInt(StartPrice + (PriceMultiplier * expansions.Count));
+            if (resourceManager.Resources[ResourceType.Resource1].amount < cost) return;
 
-            resourceManager.resources -= cost;
+            resourceManager.SubtractResource(new Resource(ResourceType.Resource1, cost));
 
             // creating a new expansion at the position of the cursor
             // this also sticks the expansion to a grid using Mathf.RoundToInt()
@@ -122,7 +122,7 @@ public class BuildManager : MonoBehaviour
 
     void CursorColorCheck()
     {
-        if (canBuildOnSelectedGridPosition && (StartPrice + (PriceMultiplier * expansions.Count)) <= resourceManager.resources)
+        if (canBuildOnSelectedGridPosition && (StartPrice + (PriceMultiplier * expansions.Count)) <= resourceManager.Resources[ResourceType.Resource1].amount)
         {
             cursorSpriteRenderer.color = Color.green;
         }
