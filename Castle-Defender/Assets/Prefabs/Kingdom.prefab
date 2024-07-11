@@ -12,7 +12,11 @@ GameObject:
   - component: {fileID: 6749295483723278026}
   - component: {fileID: 1879326177777750003}
   - component: {fileID: 1454589499572274696}
+<<<<<<< Updated upstream
   - component: {fileID: 8902008404670067902}
+=======
+  - component: {fileID: 5794721577833342464}
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: Kingdom
   m_TagString: Kingdom
@@ -146,7 +150,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxmoveSpeed: 2
+<<<<<<< Updated upstream
 --- !u!114 &8902008404670067902
+=======
+--- !u!114 &5794721577833342464
+>>>>>>> Stashed changes
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,10 +163,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 7697583622312021128}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< Updated upstream
   m_Script: {fileID: 11500000, guid: f0da950c48251864f8914341e523c66d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   resources: 0
+=======
+  m_Script: {fileID: 11500000, guid: 362894996733e1342bfb1b3bee4535f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {x: 0, y: 0, z: 0}
+  selectedWorkers: []
+>>>>>>> Stashed changes
 --- !u!1 &7834009414374443353
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +244,6 @@ Camera:
   far clip plane: 1000
   field of view: 8
   orthographic: 1
-  orthographic size: 2
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2

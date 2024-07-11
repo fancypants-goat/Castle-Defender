@@ -781,6 +781,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Kingdom
       objectReference: {fileID: 0}
+    - target: {fileID: 8282683184158777214, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.30588236
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282683184158777214, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.4039216
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282683184158777214, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.13725491
+      objectReference: {fileID: 0}
     - target: {fileID: 8586216078805671207, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
