@@ -20,6 +20,8 @@ public class Monster : MonoBehaviour
     {
         Target = GameObject.FindGameObjectWithTag("Kingdom");
     }
+
+    
     private void MoveMonsterTowardsPosition (Vector3 target) {
         // calculate the distance between self and the target
         Vector3 delta = target - transform.position;
@@ -34,7 +36,10 @@ public class Monster : MonoBehaviour
     void OnDrawGizmos()
     {
         // shows the distance in which a monster attacks
+
+        // set the color to red
         Gizmos.color = Color.red;
+        // draw a wired sphere for the attackRadius
         Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
     public void KillMonster () {

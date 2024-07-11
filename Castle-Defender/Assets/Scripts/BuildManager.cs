@@ -11,14 +11,14 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private Transform kingdom;
     [SerializeField] private bool isBuilding;
     private float cooldown;
-    public HashSet<Vector3> usedSpaces = new HashSet<Vector3>() {
-        new Vector3(0,0,0),
+    public HashSet<Vector3> usedSpaces = new() {
+        new(0,0,0),
     };
-    public HashSet<Vector3> usableSpaces = new HashSet<Vector3>() {
-        new Vector3(1,0,0),
-        new Vector3(-1,0,0),
-        new Vector3(0,1,0),
-        new Vector3(0,-1,0)
+    public HashSet<Vector3> usableSpaces = new() {
+        new(1,0,0),
+        new(-1,0,0),
+        new (0,1,0),
+        new(0,-1,0)
     };
     private Vector3 mousePos;
     private Vector3 relativeMousePos;
@@ -36,6 +36,7 @@ public class BuildManager : MonoBehaviour
         // set the position of cursor
         cursor.transform.position = mousePos;
         CursorColorCheck();
+        SnapCursorToGridPosition();
         // Building Function
         Building();
     }
@@ -104,5 +105,8 @@ public class BuildManager : MonoBehaviour
         {
             cursorSpriteRenderer.color = Color.red;
         }
+    }
+    void SnapCursorToGridPosition() {
+        cursor.transform.position = new Vector3 (Mathf.RoundToInt(mousePos.x - kingdom.position.x),Mathf.RoundToInt(mousePos.y - kingdom.position.y),0);
     }
 }
