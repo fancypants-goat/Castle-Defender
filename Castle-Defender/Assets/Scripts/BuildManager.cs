@@ -61,8 +61,12 @@ public class BuildManager : MonoBehaviour
     void Update() 
     { 
         // get the mouseposition relative to the world
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
+        if (Input.mousePosition.x >= 0 && Input.mousePosition.x <= Screen.width 
+         && Input.mousePosition.y  >= 0 && Input.mousePosition.y <= Screen.height)
+        {
+            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0;
+        }
         
         if (isBuilding) {    
             // calculates the difference between mouse and main kingdom
