@@ -44,8 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e22b3a6aa1552848beb01dca48178cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenSpawns: 5
-  currentEvadedTime: 0
   bounds:
     left: -50
     right: 50
