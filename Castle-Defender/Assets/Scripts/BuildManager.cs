@@ -103,7 +103,7 @@ public class BuildManager : MonoBehaviour
         if (Input.GetMouseButton(0) && cooldown <= 0 && canBuildOnSelectedGridPosition)
         {
             int cost = Mathf.FloorToInt(StartPrice + (PriceMultiplier * expansions.Count));
-            if (resourceManager.Resources[ResourceType.Resource1].amount < cost) return;
+            if (resourceManager.GetResource(ResourceType.Resource1).amount < cost) return;
 
             resourceManager.SubtractResource(new Resource(ResourceType.Resource1, cost));
 
@@ -126,7 +126,7 @@ public class BuildManager : MonoBehaviour
 
     void CursorColorCheck()
     {
-        if (canBuildOnSelectedGridPosition && (StartPrice + (PriceMultiplier * expansions.Count)) <= resourceManager.Resources[ResourceType.Resource1].amount)
+        if (canBuildOnSelectedGridPosition && (StartPrice + (PriceMultiplier * expansions.Count)) <= resourceManager.GetResource(ResourceType.Resource1).amount)
         {
             cursorSpriteRenderer.color = Color.green;
         }
