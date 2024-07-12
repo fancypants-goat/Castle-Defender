@@ -536,9 +536,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1590680071462961661, guid: 4f52204570ab89c49b2caa0aeb2625a8, type: 3}
+      propertyPath: resourcePrefab
+      value: 
+      objectReference: {fileID: 6902486944734425116, guid: 4bba3a0ee10cb8948b6da7ca5f628b1d, type: 3}
     - target: {fileID: 4866725552661438591, guid: 4f52204570ab89c49b2caa0aeb2625a8, type: 3}
       propertyPath: m_Name
-      value: MobSpawner
+      value: Spawner
       objectReference: {fileID: 0}
     - target: {fileID: 7077966676379229299, guid: 4f52204570ab89c49b2caa0aeb2625a8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -665,6 +669,22 @@ PrefabInstance:
       propertyPath: m_TagString
       value: MainCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 2892809971051791472, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: worker
+      value: 
+      objectReference: {fileID: 8496542414728168963, guid: ec1af330e54e9874abdd40221e03e1ac, type: 3}
+    - target: {fileID: 2892809971051791472, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: kingdom
+      value: 
+      objectReference: {fileID: 1145972273}
+    - target: {fileID: 2892809971051791472, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: buildManager
+      value: 
+      objectReference: {fileID: 1373975877}
+    - target: {fileID: 2892809971051791472, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: resourceManager
+      value: 
+      objectReference: {fileID: 1145972274}
     - target: {fileID: 3476789061596666132, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

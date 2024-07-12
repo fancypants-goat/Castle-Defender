@@ -10,6 +10,7 @@ public class MonsterSpawner : MonoBehaviour
 
     [Space]
     public GameObject monsterPrefab;
+    public GameObject resourcePrefab;
 
     void Start() {
         Vector2 topLeft = new Vector2(bounds.left, bounds.top);
@@ -29,6 +30,7 @@ public class MonsterSpawner : MonoBehaviour
         for (int i = 0; i < enemySpawnAmount; i++)
         {
             SpawnMonster();
+            SpawnResource();
         }
     }
 
@@ -42,6 +44,19 @@ public class MonsterSpawner : MonoBehaviour
         Vector3 monsterPosition = new(x, y);
 
         Instantiate(monsterPrefab, monsterPosition, Quaternion.identity);
+    }
+
+    private void SpawnResource()
+    {
+        // make sure that monsterPrefab is assigned
+        if (resourcePrefab == null) return;
+
+        // get a random position in the level
+        float x = Random.Range(bounds.left, bounds.right);
+        float y = Random.Range(bounds.bottom, bounds.top);
+        Vector3 resourcePosition = new(x, y);
+
+        Instantiate(resourcePrefab, resourcePosition, Quaternion.identity);
     }
 
 
