@@ -10,18 +10,21 @@ public class WorkerManager : MonoBehaviour
     [SerializeField] private BuildManager buildManager;
     [Space]
 
-    public int totalWorkers;
+    [SerializeField] private SelectionManager selectionManager;
+    [Space]
+
     [SerializeField] private GameObject worker;
     [SerializeField] private Transform kingdom;
     [Space]
 
     public Vector3 target;
     public bool shouldMove;
-    public bool selected;
+    public Color color;
     public List<GameObject> selectedWorkers = new List<GameObject>();
     void Start()
     {
-        
+        selectionManager = FindObjectOfType<SelectionManager>();
+        color = Color.green;
     }
 
     // Update is called once per frame
@@ -39,15 +42,16 @@ public class WorkerManager : MonoBehaviour
             Worker workerMovement = worker.GetComponent<Worker>();
             workerMovement.target = target;
             workerMovement.shouldMove = shouldMove;
+            workerMovement.GetComponent<SpriteRenderer>().color = color;
         }
     }
 
     void WorkerSpawn()
     {
-        if (totalWorkers != buildManager.expansions.Count)
+        if (selectionManager.totalWorkers.Count < buildManager.expansions.Count)
         {
-            Instantiate(worker,new Vector2(kingdom.position.x, kingdom.position.y - 2f),Quaternion.identity);
-            totalWorkers ++;
+            GameObject newWorker = Instantiate(worker,new Vector2(kingdom.position.x, kingdom.position.y - 2f),Quaternion.identity);
+            selectionManager.totalWorkers.Add(newWorker);
         }
     }
 }

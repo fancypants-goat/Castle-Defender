@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ResourceItem : MonoBehaviour
@@ -19,6 +20,7 @@ public class ResourceItem : MonoBehaviour
         target = transform.position;
         workerManager.target = target; 
         workerManager.shouldMove = true;
+        workerManager.color = Color.white;
         // clear selected worker list 
         StartCoroutine(ClearList());
     }
@@ -27,6 +29,7 @@ public class ResourceItem : MonoBehaviour
         yield return null;
         workerManager.selectedWorkers.Clear();
         workerManager.shouldMove = false;
+        workerManager.color = Color.green;
     }
 }
 

@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using Unity.Mathematics;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,12 +12,14 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private SpriteRenderer cursorSpriteRenderer;
     [SerializeField] private GameObject expansion;
     [SerializeField] private Transform kingdom;
-    [SerializeField] private bool isBuilding;
+    public bool isBuilding;
     [SerializeField] private bool canBuildOnSelectedGridPosition;
 
     [Space]
     [SerializeField] private float StartPrice;
     [SerializeField] private float PriceMultiplier;
+    [SerializeField] private TMP_Text costText;
+    private int cost;
     [Space]
     private float cooldown;
     public HashSet<Expansion> expansions = new() {
@@ -80,6 +79,8 @@ public class BuildManager : MonoBehaviour
             // Building Function
             Building();
         }
+
+        CostCalculator();
     }
 
     public void Build()
@@ -98,12 +99,12 @@ public class BuildManager : MonoBehaviour
         transform.position = mousePos;
 
         // removing the time between this frame and last frame from cooldown
-         cooldown -= Time.deltaTime;
+        cooldown -= Time.deltaTime;
 
         // if the left mouse button is pressed and cooldown is less then or equals to 0
         if (Input.GetMouseButton(0) && cooldown <= 0 && canBuildOnSelectedGridPosition)
         {
-            int cost = Mathf.FloorToInt(StartPrice + (PriceMultiplier * expansions.Count));
+
             if (resourceManager.GetResource(ResourceType.Resource1).amount < cost) return;
 
             resourceManager.SubtractResource(new Resource(ResourceType.Resource1, cost));
@@ -127,7 +128,7 @@ public class BuildManager : MonoBehaviour
 
     void CursorColorCheck()
     {
-        if (canBuildOnSelectedGridPosition && (StartPrice + (PriceMultiplier * expansions.Count)) <= resourceManager.GetResource(ResourceType.Resource1).amount)
+        if (canBuildOnSelectedGridPosition && cost <= resourceManager.GetResource(ResourceType.Resource1).amount)
         {
             cursorSpriteRenderer.color = Color.green;
         }
@@ -149,6 +150,13 @@ public class BuildManager : MonoBehaviour
     }
     void SnapCursorToGridPosition() {
         cursor.transform.position = kingdom.position + relativeMousePos;
+    }
+
+    void CostCalculator()
+    {
+        // Seperately calculates cost
+        cost = Mathf.FloorToInt(StartPrice * (1 + (PriceMultiplier * (expansions.Count-1))));
+        costText.text = cost.ToString();
     }
 }
 
