@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WorkerManager : MonoBehaviour
 {
+    public ResourceManager resourceManager;
+    [Space]
     public Vector3 target;
     public bool shouldMove;
     public bool selected;
@@ -21,9 +23,10 @@ public class WorkerManager : MonoBehaviour
 
     void TargetDecider()
     {
+        // sets target for selected workers
         foreach (var worker in selectedWorkers)
         {
-            WorkerMovement workerMovement = worker.GetComponent<WorkerMovement>();
+            Worker workerMovement = worker.GetComponent<Worker>();
             workerMovement.target = target;
             workerMovement.shouldMove = shouldMove;
         }

@@ -36,14 +36,12 @@ public class MonsterSpawner : MonoBehaviour
         // make sure that monsterPrefab is assigned
         if (monsterPrefab == null) return;
 
-        GameObject newMonster = Instantiate(monsterPrefab);
-
         // get a random position in the level
         float x = Random.Range(bounds.left, bounds.right);
         float y = Random.Range(bounds.bottom, bounds.top);
         Vector3 monsterPosition = new(x, y);
 
-        newMonster.transform.position = monsterPosition;
+        Instantiate(monsterPrefab, monsterPosition, Quaternion.identity);
     }
 
 

@@ -19,5 +19,9 @@ public class CameraZoomManager : MonoBehaviour
         {
             camera.orthographicSize += amountPerZoom * Input.GetAxis("Mouse ScrollWheel");
         }
+        else
+        {
+            camera.orthographicSize = 2;
+        }
     }
 }
