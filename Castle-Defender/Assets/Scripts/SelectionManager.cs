@@ -27,9 +27,9 @@ public class SelectionManager : MonoBehaviour
             HandleMouseInput();
             if (isDragging)
             {
+                SelectWorkers();
                 SetRect();
             }
-            SelectWorkers();
         }
     }
 
@@ -50,7 +50,9 @@ public class SelectionManager : MonoBehaviour
         // stop selection
         if (Input.GetMouseButtonUp(0))
         {
-            StartCoroutine(SelectWorkers());
+            isDragging = false;
+            mouseDown = false;
+            selectionBox.gameObject.SetActive(false);
         }
     }
 
@@ -64,7 +66,7 @@ public class SelectionManager : MonoBehaviour
         selectionBox.position = (Input.mousePosition + initialMousePos)/2;
     }
 
-    IEnumerator SelectWorkers()
+    void SelectWorkers()
     {
         // Clear previously selected workers if not dragging
         if (!isDragging)
@@ -95,15 +97,7 @@ public class SelectionManager : MonoBehaviour
                 {
                     workerManager.selectedWorkers.Add(worker);
                 }
-                else
-                {
-                    workerManager.selectedWorkers.Remove(worker);
-                }
             }
         }
-        yield return null;
-        isDragging = false;
-        mouseDown = false;
-        selectionBox.gameObject.SetActive(false);
     }
 }

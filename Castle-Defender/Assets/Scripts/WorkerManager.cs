@@ -19,10 +19,12 @@ public class WorkerManager : MonoBehaviour
 
     public Vector3 target;
     public bool shouldMove;
+    public Color color;
     public List<GameObject> selectedWorkers = new List<GameObject>();
     void Start()
     {
         selectionManager = FindObjectOfType<SelectionManager>();
+        color = Color.green;
     }
 
     // Update is called once per frame
@@ -38,8 +40,9 @@ public class WorkerManager : MonoBehaviour
         foreach (var worker in selectedWorkers)
         {
             Worker workerMovement = worker.GetComponent<Worker>();
-            workerMovement.resourceTarget = target;
+            workerMovement.target = target;
             workerMovement.shouldMove = shouldMove;
+            workerMovement.GetComponent<SpriteRenderer>().color = color;
         }
     }
 
