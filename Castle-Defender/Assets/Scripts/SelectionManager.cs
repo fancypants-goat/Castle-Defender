@@ -8,9 +8,10 @@ public class SelectionManager : MonoBehaviour
 
     public List<GameObject> totalWorkers = new List<GameObject>();
     [Space]
-
     private WorkerManager workerManager;
     private BuildManager buildManager;
+    [Space]
+    public bool selectingResource;
     private bool mouseDown,isDragging;
     private Vector3 initialMousePos;
     void Start()
@@ -22,7 +23,7 @@ public class SelectionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!buildManager.isBuilding)
+        if (!buildManager.isBuilding && !selectingResource)
         {
             HandleMouseInput();
             if (isDragging)

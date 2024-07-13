@@ -6,13 +6,14 @@ using UnityEngine;
 public class ResourceItem : MonoBehaviour
 {
     public Resource resource;
-
     private Vector3 target;
     private WorkerManager workerManager;
+    private SelectionManager selectionManager;
 
     void Start() 
     {
         workerManager = FindObjectOfType<WorkerManager>();
+        selectionManager = FindObjectOfType<SelectionManager>();
     }
     void OnMouseDown() 
     {
@@ -22,6 +23,15 @@ public class ResourceItem : MonoBehaviour
         workerManager.shouldMove = true;
         // clear selected worker list 
         StartCoroutine(ClearList());
+    }
+
+    void OnMouseEnter() 
+    {
+        selectionManager.selectingResource = true;
+    }
+    void OnMouseExit() 
+    {
+        selectionManager.selectingResource = false;;
     }
     IEnumerator ClearList()
     {
