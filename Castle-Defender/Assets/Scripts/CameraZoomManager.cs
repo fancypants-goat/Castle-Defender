@@ -17,7 +17,7 @@ public class CameraZoomManager : MonoBehaviour
     {
         if (camera.orthographicSize >= 2)
         {
-            camera.orthographicSize += amountPerZoom * Input.GetAxis("Mouse ScrollWheel");
+            camera.orthographicSize -= amountPerZoom * Input.GetAxis("Mouse ScrollWheel");
         }
         else
         {

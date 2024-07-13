@@ -87,6 +87,10 @@ public class SelectionManager : MonoBehaviour
         {
             Vector3 screenPos = Camera.main.WorldToScreenPoint(worker.transform.position);
 
+
+            // this can also be done by:
+            // adding a collider to the selectionbox and using OnTriggerEnter2D in Worker.cs to add the worker to the list
+            // this is a lot faster
             if (screenPos.x >= minX && screenPos.x <= maxX && screenPos.y >= minY && screenPos.y <= maxY)
             {
                 if (!workerManager.selectedWorkers.Contains(worker))

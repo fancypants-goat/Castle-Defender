@@ -50,3 +50,4 @@ MonoBehaviour:
     bottom: -50
     top: 50
   monsterPrefab: {fileID: 1314951755837579314, guid: 6c7354de08c4fb34981106fb2225e426, type: 3}
+  resourcePrefab: {fileID: 6902486944734425116, guid: 4bba3a0ee10cb8948b6da7ca5f628b1d, type: 3}

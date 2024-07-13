@@ -1,8 +1,16 @@
 using System.Collections.Generic;
+using System.IO;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResourceManager : MonoBehaviour
 {
+    public GameObject ResourcesPanel;
+    public GameObject ResourcePanelPrefab;
+
+
     // replace ResourceSO with actual name of resource so script
     private Dictionary<ResourceType, Resource> resources = new();
     public Dictionary<ResourceType, Resource> Resources
@@ -33,11 +41,37 @@ public class ResourceManager : MonoBehaviour
         if (resources.ContainsKey(resource.resourceType)) resources[resource.resourceType].amount += resource.amount;
         // else add the resource to the resources dict
         else resources.Add(resource.resourceType, resource);
+
+        // update the resourcesPanel
+        UpdateVisuals();
     }
     public void SubtractResource (Resource resource) {
         // remove the amount from the resource
         resources[resource.resourceType].amount -= resource.amount;
         // if the resource amount is 0 or below, remove the resource from the resources dict
         if (resources[resource.resourceType].amount <= 0) resources.Remove(resource.resourceType);
+
+        // update the resources panel
+        UpdateVisuals();
+    }
+
+
+    public void UpdateVisuals() {
+        // remove all children
+        foreach (Transform tf in ResourcesPanel.transform) {
+            Destroy(tf.gameObject);
+        }
+
+        foreach ((ResourceType resourceType, Resource resource) in resources) {
+            // create a new resourcePanel
+            GameObject resourcePanel = Instantiate(ResourcePanelPrefab, ResourcesPanel.transform);
+            // get the textcomponent in children and set the text to the amount
+            resourcePanel.GetComponentInChildren<TMP_Text>().text = resource.amount.ToString();
+            // get the image component in children and set the sprite to the resource sprite
+            // get the path to the texture
+            string texturePath = Path.Combine("Assets", "Textures", resource.resourceType.ToString());
+            // set the texture
+            resourcePanel.GetComponentInChildren<Image>().sprite = AssetDatabase.LoadAssetAtPath<Sprite>(texturePath);
+        }
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1838129908153761433}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69,7 +69,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2
+  orthographic size: 3
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e785c47d3769444fa35820fa2fd4a96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountPerZoom: 0
+  amountPerZoom: 20
 --- !u!1 &3976056266937331031
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +252,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0da950c48251864f8914341e523c66d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ResourcesPanel: {fileID: 0}
+  ResourcePanelPrefab: {fileID: 1264672727943840417, guid: 786410df4d410e2438b7c32ec0c07873, type: 3}
 --- !u!114 &6213024395327126304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,7 +279,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362894996733e1342bfb1b3bee4535f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resourceManager: {fileID: 9074198366150649552}
+  buildManager: {fileID: 0}
+  selectionManager: {fileID: 0}
+  worker: {fileID: 8496542414728168963, guid: ec1af330e54e9874abdd40221e03e1ac, type: 3}
+  kingdom: {fileID: 3476789061596666132}
   target: {x: 0, y: 0, z: 0}
   shouldMove: 0
-  selected: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
   selectedWorkers: []
