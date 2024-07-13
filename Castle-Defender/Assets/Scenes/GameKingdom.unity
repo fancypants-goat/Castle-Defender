@@ -968,6 +968,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Kingdom
       objectReference: {fileID: 0}
+    - target: {fileID: 7512697671465241200, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: orthographic size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9074198366150649552, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: ResourcesPanel
       value: 
