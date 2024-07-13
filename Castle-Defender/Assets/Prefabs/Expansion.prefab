@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8980697530713049640}
   - component: {fileID: 7205766126513310870}
   - component: {fileID: -8705626858601019852}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Expansion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,3 +144,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoomSpeed: 0.5
+  zoomVelocity: 0

@@ -970,13 +970,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7512697671465241200, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: orthographic size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9074198366150649552, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: ResourcesPanel
       value: 
       objectReference: {fileID: 996350651}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9107720644047619970, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1142,6 +1143,10 @@ PrefabInstance:
       propertyPath: costText
       value: 
       objectReference: {fileID: 710181338}
+    - target: {fileID: 7670975357208052764, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
+      propertyPath: PriceMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7670975357208052764, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
       propertyPath: resourceManager
       value: 
