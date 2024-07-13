@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class MonsterSpawner : MonoBehaviour
 {
 
-    [Space]
     public LevelBounds bounds;
-
     [Space]
     public GameObject monsterPrefab;
     public GameObject resourcePrefab;
+    [Space]
+    [SerializeField] private Tilemap tilemap;
+    [SerializeField] private List<Tile> tiles = new List<Tile>();
 
     void Start() {
         Vector2 topLeft = new Vector2(bounds.left, bounds.top);
@@ -32,6 +35,7 @@ public class MonsterSpawner : MonoBehaviour
             SpawnMonster();
             SpawnResource();
         }
+        SpawnTile();
     }
 
     private void SpawnMonster() {
@@ -57,6 +61,25 @@ public class MonsterSpawner : MonoBehaviour
         Vector3 resourcePosition = new(x, y);
 
         Instantiate(resourcePrefab, resourcePosition, Quaternion.identity);
+    }
+
+    private void SpawnTile()
+    {
+        float length = Mathf.Abs(bounds.right) + Mathf.Abs(bounds.left);
+        float height = Mathf.Abs(bounds.top) + Mathf.Abs(bounds.bottom);
+        for (int x = bounds.left.ConvertTo<int>(); x < length; x++)
+        {
+            for (int y = bounds.bottom.ConvertTo<int>(); y < height; y++)
+            {
+                int tileNumber = Random.Range(1,100);
+                if (tileNumber <= 8)
+                {tilemap.SetTile(new Vector3Int(x,y,0),tiles[tileNumber]);}
+                else
+                {
+                    tilemap.SetTile(new Vector3Int(x,y,0),tiles[0]);
+                }
+            }
+        }
     }
 
 
