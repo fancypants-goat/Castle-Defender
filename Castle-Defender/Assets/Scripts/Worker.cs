@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -6,7 +7,9 @@ public class Worker : MonoBehaviour
 {
     public ResourceManager resourceManager;
     [Space]
-    public Vector3 target;
+    public Vector3 resourceTarget;
+    public Vector3 kingdomTarget;
+    [SerializeField] LayerMask kingdomLayer;
     [SerializeField] private GameObject kingdom;
     public float speed;
     private float minimumDistance = 1;
@@ -16,7 +19,7 @@ public class Worker : MonoBehaviour
     private WorkerManager workerManager;
     void Start()
     {
-        target = transform.position;
+        resourceTarget = transform.position;
         kingdom = GameObject.FindGameObjectWithTag("Kingdom");
         workerManager = kingdom.GetComponent<WorkerManager>();
         resourceManager = kingdom.GetComponent<ResourceManager>();
@@ -25,6 +28,8 @@ public class Worker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        calculateKingdomTarget();
+        ColorChange();
         if (shouldMove && !working)
         {
             StartCoroutine(Move());
@@ -41,8 +46,21 @@ public class Worker : MonoBehaviour
         else
         {
             workerManager.selectedWorkers.Remove(gameObject);
+
         }
         reachedTarget = false;
+    }
+
+    void ColorChange()
+    {
+        if (workerManager.selectedWorkers.Contains(gameObject))
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        }
     }
 
     IEnumerator Move()
@@ -50,21 +68,37 @@ public class Worker : MonoBehaviour
         // choose destination of worker depending on position of worker
         // switches between kingdom and resource
         working = true;
-        Vector3 Destination = reachedTarget ? kingdom.transform.position : target;
+        Vector3 Destination = reachedTarget ? kingdomTarget : resourceTarget;
         transform.position = Vector2.MoveTowards(transform.position,Destination, speed * Time.deltaTime);
 
         // counts as target reached when within radius of minimum distance
         if (Vector2.Distance(Destination,transform.position) < minimumDistance)
         {
-            yield return new WaitForSeconds(1);
+            if (!reachedTarget)
+            {yield return new WaitForSeconds(1);}
             reachedTarget = !reachedTarget;
         }
         // add resource when returns to kingdom
-        if (Vector2.Distance(kingdom.transform.position,transform.position) < minimumDistance 
-        && kingdom.transform.position == Destination)
+        if (Vector2.Distance(kingdomTarget,transform.position) < minimumDistance 
+        && kingdomTarget == Destination)
         {
             resourceManager.AddResource(new Resource (ResourceType.Resource1,1));
         }
         working = false;
+    }
+
+    void calculateKingdomTarget()
+    {
+        Vector3 raycastDir = (kingdom.transform.position - transform.position).normalized;
+        RaycastHit2D targetPosition = Physics2D.Raycast(transform.position,raycastDir,Mathf.Infinity, kingdomLayer);
+        if (targetPosition.collider != null)
+        {
+            kingdomTarget = targetPosition.transform.position;
+        }
+        else
+        {
+            kingdomTarget = kingdom.transform.position;
+        }
+        Debug.DrawLine(transform.position, kingdomTarget);
     }
 }
