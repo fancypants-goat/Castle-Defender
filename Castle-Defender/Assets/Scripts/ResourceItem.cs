@@ -61,6 +61,6 @@ public class Resource
 
 public enum ResourceType
 {
-    Resource1,
+    Wood,
     Resource2,
 }

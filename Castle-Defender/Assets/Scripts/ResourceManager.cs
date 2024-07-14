@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -69,9 +68,13 @@ public class ResourceManager : MonoBehaviour
             resourcePanel.GetComponentInChildren<TMP_Text>().text = resource.amount.ToString();
             // get the image component in children and set the sprite to the resource sprite
             // get the path to the texture
-            string texturePath = Path.Combine("Assets", "Textures", resource.resourceType.ToString());
+            string texturePath = resourceType.ToString();
             // set the texture
-            resourcePanel.GetComponentInChildren<Image>().sprite = AssetDatabase.LoadAssetAtPath<Sprite>(texturePath);
+            // This only works in the editor
+            // resourcePanel.GetComponentInChildren<Image>().sprite = AssetDatabase.LoadAssetAtPath<Sprite>(texturePath);
+
+            // This works on runtime
+            resourcePanel.GetComponentInChildren<Image>().sprite = UnityEngine.Resources.Load<Sprite>(texturePath);
         }
     }
 }

@@ -16,7 +16,7 @@ public class ResourceManagerEditor : Editor
         var script = (ResourceManager) target;
         if (GUILayout.Button("Add resource"))
         {
-            script.AddResource(new Resource (ResourceType.Resource1,10));
+            script.AddResource(new Resource (ResourceType.Wood,10));
         }
     }
 }
