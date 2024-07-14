@@ -34,10 +34,8 @@ public class Worker : MonoBehaviour
         if (!working)
         {
             Idle();
-            if (resourceTarget != null)
-            {
-                StartCoroutine(Move());
-            }
+            // move the worker
+            StartCoroutine(Move());
         }
     }
 
@@ -71,13 +69,20 @@ public class Worker : MonoBehaviour
 
     IEnumerator Move()
     {
+        // check if the worker has reached the target or the resourcetarget is not assigned
+        Vector3 Destination = reachedTarget || resourceTarget == null ? kingdomTarget : resourceTarget.transform.position;
+
+        // check if the worker is in reach of the castle
+        if (Vector2.Distance(transform.position, kingdomTarget) <= 1 && resourceTarget == null) {
+            // stop the worker from moving
+            yield break;
+        }
+
         // choose destination of worker depending on position of worker
         // switches between kingdom and resource
         working = true;
-        Vector3 Destination = reachedTarget ? kingdomTarget : resourceTarget.transform.position;
 
-
-        transform.position = Vector2.MoveTowards(transform.position,Destination, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, Destination, speed * Time.deltaTime);
 
         // resource identifier
         if (resourceTarget != null)
@@ -106,11 +111,14 @@ public class Worker : MonoBehaviour
     }
     void Idle()
     {
+        // checking if resourceTarget is not assigned
         if (resourceTarget  ==  null)
         {
+            // checking if the worker is more then 2 units away from the castle
             if (Vector2.Distance(transform.position, kingdomTarget) > 2)
             {
-                transform.position = Vector2.Lerp(transform.position,kingdomTarget, Time.deltaTime);
+                // setting the new position
+                transform.position = Vector2.Lerp(transform.position, kingdomTarget, Time.deltaTime);
             }
         }
     }
@@ -118,7 +126,7 @@ public class Worker : MonoBehaviour
     {
         // Casts a ray in the direction of main castle
         Vector3 raycastDir = (kingdom.transform.position - transform.position).normalized;
-        RaycastHit2D targetPosition = Physics2D.Raycast(transform.position,raycastDir,Mathf.Infinity, kingdomLayer);
+        RaycastHit2D targetPosition = Physics2D.Raycast(transform.position, raycastDir, Mathf.Infinity, kingdomLayer);
         // if an expansion hits the ray 
         // makes worker drop off resource at that expansion
         if (targetPosition.collider != null)
