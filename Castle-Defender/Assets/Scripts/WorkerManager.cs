@@ -17,8 +17,7 @@ public class WorkerManager : MonoBehaviour
     [SerializeField] private Transform kingdom;
     [Space]
 
-    public Vector3 target;
-    public bool shouldMove;
+    public GameObject target;
     public List<GameObject> selectedWorkers = new List<GameObject>();
     void Start()
     {
@@ -39,7 +38,6 @@ public class WorkerManager : MonoBehaviour
         {
             Worker workerMovement = worker.GetComponent<Worker>();
             workerMovement.resourceTarget = target;
-            workerMovement.shouldMove = shouldMove;
         }
     }
 
@@ -47,7 +45,15 @@ public class WorkerManager : MonoBehaviour
     {
         if (selectionManager.totalWorkers.Count < buildManager.expansions.Count)
         {
-            GameObject newWorker = Instantiate(worker,new Vector2(kingdom.position.x, kingdom.position.y - 2f),Quaternion.identity);
+            float y = -0.6f;
+            foreach (Expansion expansion in buildManager.expansions)
+            {
+                if (expansion.position.x == 0 && expansion.position.y < y)
+                {
+                    y = expansion.position.y - 0.6f;
+                }
+            }
+            GameObject newWorker = Instantiate(worker,new Vector2(kingdom.position.x, kingdom.position.y + y),Quaternion.identity);
             selectionManager.totalWorkers.Add(newWorker);
         }
     }

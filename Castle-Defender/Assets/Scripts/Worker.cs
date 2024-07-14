@@ -7,19 +7,16 @@ public class Worker : MonoBehaviour
 {
     public ResourceManager resourceManager;
     [Space]
-    public Vector3 resourceTarget;
+    public GameObject resourceTarget;
     public Vector3 kingdomTarget;
     [SerializeField] LayerMask kingdomLayer;
     [SerializeField] private GameObject kingdom;
     public float speed;
-    private float minimumDistance = 1;
-    public bool reachedTarget;
-    public bool shouldMove;
-    public bool working;
+    private float minimumDistance = 0.5f;
+    public bool reachedTarget ,shouldMove ,working;
     private WorkerManager workerManager;
     void Start()
     {
-        resourceTarget = transform.position;
         kingdom = GameObject.FindGameObjectWithTag("Kingdom");
         workerManager = kingdom.GetComponent<WorkerManager>();
         resourceManager = kingdom.GetComponent<ResourceManager>();
@@ -28,11 +25,15 @@ public class Worker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        calculateKingdomTarget();
+        CalculateKingdomTarget();
         ColorChange();
-        if (shouldMove && !working)
+        if (!working)
         {
-            StartCoroutine(Move());
+            Idle();
+            if (shouldMove)
+            {
+                StartCoroutine(Move());
+            }
         }
     }
 
@@ -63,34 +64,55 @@ public class Worker : MonoBehaviour
         }
     }
 
+    void TargetCheck()
+    {
+        // checks if there is a target
+        shouldMove = resourceTarget != null;
+    }
+
     IEnumerator Move()
     {
         // choose destination of worker depending on position of worker
         // switches between kingdom and resource
         working = true;
-        Vector3 Destination = reachedTarget ? kingdomTarget : resourceTarget;
+        Vector3 Destination = reachedTarget ? kingdomTarget : resourceTarget.transform.position;
         transform.position = Vector2.MoveTowards(transform.position,Destination, speed * Time.deltaTime);
 
         // counts as target reached when within radius of minimum distance
         if (Vector2.Distance(Destination,transform.position) < minimumDistance)
         {
             if (!reachedTarget)
-            {yield return new WaitForSeconds(1);}
+            {
+                yield return new WaitForSeconds(1);
+                resourceTarget.GetComponent<ResourceItem>().resource.amount -= 1;
+            }
+            else
+            {     
+                resourceManager.AddResource(new Resource (resourceTarget.GetComponent<ResourceItem>().resource.resourceType,1));
+            }
             reachedTarget = !reachedTarget;
         }
-        // add resource when returns to kingdom
-        if (Vector2.Distance(kingdomTarget,transform.position) < minimumDistance 
-        && kingdomTarget == Destination)
-        {
-            resourceManager.AddResource(new Resource (ResourceType.Resource1,1));
-        }
+        TargetCheck();
         working = false;
     }
-
-    void calculateKingdomTarget()
+    void Idle()
     {
+        if (resourceTarget  ==  null)
+        {
+            if (Vector2.Distance(transform.position, kingdomTarget) > 2)
+            {
+                transform.position = Vector2.Lerp(transform.position,kingdomTarget, Time.deltaTime);
+            }
+        }
+    }
+
+    void CalculateKingdomTarget()
+    {
+        // Casts a ray in the direction of main castle
         Vector3 raycastDir = (kingdom.transform.position - transform.position).normalized;
         RaycastHit2D targetPosition = Physics2D.Raycast(transform.position,raycastDir,Mathf.Infinity, kingdomLayer);
+        // if an expansion hits the ray 
+        // makes worker drop off resource at that expansion
         if (targetPosition.collider != null)
         {
             kingdomTarget = targetPosition.transform.position;
