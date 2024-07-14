@@ -16,7 +16,7 @@ public class Worker : MonoBehaviour
     [SerializeField] LayerMask kingdomLayer;
     [SerializeField] private GameObject kingdom;
     public float speed;
-    private float minimumDistance = 0.5f;
+    private float minimumDistance = 0.7f;
     public bool reachedTarget ,shouldMove ,working, carrying;
     private WorkerManager workerManager;
     void Start()
@@ -73,7 +73,7 @@ public class Worker : MonoBehaviour
         Vector3 Destination = reachedTarget || resourceTarget == null ? kingdomTarget : resourceTarget.transform.position;
 
         // check if the worker is in reach of the castle
-        if (Vector2.Distance(transform.position, kingdomTarget) <= 1 && resourceTarget == null) {
+        if (Vector2.Distance(transform.position, kingdomTarget) <= minimumDistance && resourceTarget == null) {
             // stop the worker from moving
             yield break;
         }
@@ -91,17 +91,18 @@ public class Worker : MonoBehaviour
             resourceType = resource.resourceType;
         }
         // counts as target reached when within radius of minimum distance
-        if (Vector2.Distance(Destination,transform.position) < minimumDistance)
+        if (Vector2.Distance(Destination, transform.position) < minimumDistance)
         {
             if (!reachedTarget && resourceTarget != null)
             {
                 yield return new WaitForSeconds(1);
-                resource.amount -= 1;
                 carrying = true;
+                resource.amount--;
             }
-            else
+            if (Vector2.Distance(kingdomTarget, transform.position) < minimumDistance && carrying)
             {     
-                resourceManager.AddResource(new Resource (resourceType,1));
+                Debug.Log("adding resource to kingdom");
+                resourceManager.AddResource(new Resource (resourceType, 1));
                 carrying = false;
             }
             reachedTarget = !reachedTarget;
