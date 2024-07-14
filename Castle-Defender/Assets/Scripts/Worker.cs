@@ -8,12 +8,16 @@ public class Worker : MonoBehaviour
     public ResourceManager resourceManager;
     [Space]
     public GameObject resourceTarget;
+    private Resource resource;
+    private ResourceType resourceType;
+    [Space]
+
     public Vector3 kingdomTarget;
     [SerializeField] LayerMask kingdomLayer;
     [SerializeField] private GameObject kingdom;
     public float speed;
     private float minimumDistance = 0.5f;
-    public bool reachedTarget ,shouldMove ,working;
+    public bool reachedTarget ,shouldMove ,working, carrying;
     private WorkerManager workerManager;
     void Start()
     {
@@ -30,7 +34,7 @@ public class Worker : MonoBehaviour
         if (!working)
         {
             Idle();
-            if (shouldMove)
+            if (resourceTarget != null)
             {
                 StartCoroutine(Move());
             }
@@ -64,35 +68,39 @@ public class Worker : MonoBehaviour
         }
     }
 
-    void TargetCheck()
-    {
-        // checks if there is a target
-        shouldMove = resourceTarget != null;
-    }
-
     IEnumerator Move()
     {
         // choose destination of worker depending on position of worker
         // switches between kingdom and resource
         working = true;
         Vector3 Destination = reachedTarget ? kingdomTarget : resourceTarget.transform.position;
+
+
         transform.position = Vector2.MoveTowards(transform.position,Destination, speed * Time.deltaTime);
 
+        // resource identifier
+        if (resourceTarget != null)
+        {
+            resource = resourceTarget.GetComponent<ResourceItem>().resource;
+            resourceType = resource.resourceType;
+        }
         // counts as target reached when within radius of minimum distance
         if (Vector2.Distance(Destination,transform.position) < minimumDistance)
         {
-            if (!reachedTarget)
+            if (!reachedTarget && resourceTarget != null)
             {
                 yield return new WaitForSeconds(1);
-                resourceTarget.GetComponent<ResourceItem>().resource.amount -= 1;
+                resource.amount -= 1;
+                carrying = true;
             }
             else
             {     
-                resourceManager.AddResource(new Resource (resourceTarget.GetComponent<ResourceItem>().resource.resourceType,1));
+                resourceManager.AddResource(new Resource (resourceType,1));
+                carrying = false;
             }
             reachedTarget = !reachedTarget;
         }
-        TargetCheck();
+        yield return null;
         working = false;
     }
     void Idle()
@@ -105,7 +113,6 @@ public class Worker : MonoBehaviour
             }
         }
     }
-
     void CalculateKingdomTarget()
     {
         // Casts a ray in the direction of main castle
