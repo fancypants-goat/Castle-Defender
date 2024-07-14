@@ -69,12 +69,22 @@ public class ResourceManager : MonoBehaviour
             // get the image component in children and set the sprite to the resource sprite
             // get the path to the texture
             string texturePath = resourceType.ToString();
+
             // set the texture
+
             // This only works in the editor
             // resourcePanel.GetComponentInChildren<Image>().sprite = AssetDatabase.LoadAssetAtPath<Sprite>(texturePath);
 
             // This works on runtime
-            resourcePanel.GetComponentInChildren<Image>().sprite = UnityEngine.Resources.Load<Sprite>(texturePath);
+            Sprite textureSprite = UnityEngine.Resources.Load<Sprite>(texturePath);
+            if (textureSprite != null)
+            {
+                resourcePanel.GetComponentInChildren<Image>().sprite = textureSprite;
+            }
+            else
+            {
+                resourcePanel.GetComponentInChildren<Image>().sprite = UnityEngine.Resources.Load<Sprite>("Default");
+            }
         }
     }
 }
