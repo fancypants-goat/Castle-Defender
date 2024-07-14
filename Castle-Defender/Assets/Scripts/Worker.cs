@@ -58,13 +58,14 @@ public class Worker : MonoBehaviour
 
     void ColorChange()
     {
+        GameObject selectionShow = gameObject.transform.GetChild(0).gameObject;
         if (workerManager.selectedWorkers.Contains(gameObject))
         {
-            gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+            selectionShow.SetActive(true);
         }
         else
         {
-            gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            selectionShow.SetActive(false);
         }
     }
 
