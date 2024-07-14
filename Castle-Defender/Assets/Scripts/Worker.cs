@@ -35,7 +35,10 @@ public class Worker : MonoBehaviour
         {
             Idle();
             // move the worker
-            StartCoroutine(Move());
+            if (shouldMove)
+            {
+                StartCoroutine(Move());
+            }
         }
     }
 
@@ -75,6 +78,7 @@ public class Worker : MonoBehaviour
         // check if the worker is in reach of the castle
         if (Vector2.Distance(transform.position, kingdomTarget) <= minimumDistance && resourceTarget == null) {
             // stop the worker from moving
+            shouldMove = false;
             yield break;
         }
 
@@ -121,6 +125,10 @@ public class Worker : MonoBehaviour
                 // setting the new position
                 transform.position = Vector2.Lerp(transform.position, kingdomTarget, Time.deltaTime);
             }
+        }
+        else
+        {
+            shouldMove = true;
         }
     }
     void CalculateKingdomTarget()
