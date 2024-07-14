@@ -100,12 +100,14 @@ public class Worker : MonoBehaviour
             if (!reachedTarget && resourceTarget != null)
             {
                 yield return new WaitForSeconds(1);
-                carrying = true;
-                resource.amount--;
+                if (resourceTarget != null)
+                {
+                    carrying = true;
+                    resource.amount--;
+                }
             }
             if (Vector2.Distance(kingdomTarget, transform.position) < minimumDistance && carrying)
             {     
-                Debug.Log("adding resource to kingdom");
                 resourceManager.AddResource(new Resource (resourceType, 1));
                 carrying = false;
             }

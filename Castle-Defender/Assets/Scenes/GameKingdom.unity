@@ -1299,6 +1299,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6213024395327126304, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: maxmoveSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7512697671465241200, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: orthographic size
       value: 2
