@@ -22,7 +22,6 @@ public class BuildManager : MonoBehaviour
     [Space]
     private float cooldown;
     public HashSet<Expansion> expansions = new() {
-        new Expansion(Vector3.zero),
         new Expansion(new Vector3(0.25f,0.25f,0)),
         new Expansion(new Vector3(-0.25f,0.25f,0)),
         new Expansion(new Vector3(0.25f,-0.25f,0)),
@@ -177,9 +176,9 @@ public class BuildManager : MonoBehaviour
     void CostCalculator()
     {
         int priceAddition = 0;
-        if (expansions.Count() > 1)
+        if (expansions.Count > 4)
         {
-            priceAddition = expansions.Count * StartPrice;
+            priceAddition = (expansions.Count-4) * StartPrice;
         }
         // Seperately calculates cost
         cost = StartPrice + priceAddition; 

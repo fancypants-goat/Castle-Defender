@@ -140,7 +140,7 @@ public class Worker : MonoBehaviour
         RaycastHit2D targetPosition = Physics2D.Raycast(transform.position, raycastDir, Mathf.Infinity, kingdomLayer);
         // if an expansion hits the ray 
         // makes worker drop off resource at that expansion
-        if (targetPosition.collider != null)
+        if (targetPosition.collider != null && targetPosition.collider.CompareTag("Kingdom"))
         {
             kingdomTarget = targetPosition.transform.position;
         }

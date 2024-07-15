@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 130384917316502551}
   m_Layer: 0
   m_Name: Worker
-  m_TagString: Untagged
+  m_TagString: Worker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -188,7 +188,7 @@ MonoBehaviour:
   kingdomTarget: {x: 0, y: 0, z: 0}
   kingdomLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
   kingdom: {fileID: 0}
   speed: 3
   reachedTarget: 0

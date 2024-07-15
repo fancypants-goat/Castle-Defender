@@ -43,7 +43,7 @@ public class WorkerManager : MonoBehaviour
 
     void WorkerSpawn()
     {
-        if (selectionManager.totalWorkers.Count < buildManager.expansions.Count)
+        if (selectionManager.totalWorkers.Count < buildManager.expansions.Count - 3)
         {
             float y = -0.6f;
             foreach (Expansion expansion in buildManager.expansions)
