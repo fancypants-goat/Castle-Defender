@@ -22,7 +22,11 @@ public class BuildManager : MonoBehaviour
     [Space]
     private float cooldown;
     public HashSet<Expansion> expansions = new() {
-        new Expansion(Vector3.zero)
+        new Expansion(Vector3.zero),
+        new Expansion(new Vector3(0.25f,0.25f,0)),
+        new Expansion(new Vector3(-0.25f,0.25f,0)),
+        new Expansion(new Vector3(0.25f,-0.25f,0)),
+        new Expansion(new Vector3(-0.25f,-0.25f,0))
     };
     public bool ExpansionsContains (Vector3 position) {
         foreach (Expansion expansion in expansions) {
@@ -135,8 +139,8 @@ public class BuildManager : MonoBehaviour
     }
     void CheckIfCanBuildOnGridPosition() {
         Vector3 gridPosition = relativeMousePos + closestExpansion;
-        bool expansionOnThisGridPosition = ExpansionsContains();
-        canBuildOnSelectedGridPosition = !expansionOnThisGridPosition && CheckForNeighbourExpansions(relativeMousePos);
+        bool expansionOnThisGridPosition = ExpansionsContains(gridPosition);
+        canBuildOnSelectedGridPosition = !expansionOnThisGridPosition && CheckForNeighbourExpansions(gridPosition);
 
         cursor.SetActive(!expansionOnThisGridPosition);
     }
