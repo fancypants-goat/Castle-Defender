@@ -43,15 +43,10 @@ public class BuildManager : MonoBehaviour
         return false;
     }
     public bool CheckForNeighbourExpansions (Vector3 position) {
-        bool nextToExpansion = ExpansionsContains
-        (
-            position + Vector3.up/2,
-            position + Vector3.down/2,
-            position + Vector3.right/2,
-            position + Vector3.left/2
-        );
-
-        return nextToExpansion;
+        return ExpansionsContains(position + Vector3.up/2) ||
+            ExpansionsContains(position + Vector3.down/2) ||
+            ExpansionsContains(position + Vector3.right/2) ||
+            ExpansionsContains(position + Vector3.left/2);
     }
 
     
@@ -114,7 +109,7 @@ public class BuildManager : MonoBehaviour
             // this also sticks the expansion to a grid using Mathf.RoundToInt()
             Instantiate(expansion, kingdom.position + closestExpansion + relativeMousePos, Quaternion.identity, kingdom);
             // adds relative mouse position to list
-            Expansion expansionData = new(relativeMousePos);
+            Expansion expansionData = new(relativeMousePos + closestExpansion);
             AddNewUsableSpaces(expansionData);
             // resetting the cooldown
             cooldown = 0.2f;
@@ -139,14 +134,11 @@ public class BuildManager : MonoBehaviour
         }
     }
     void CheckIfCanBuildOnGridPosition() {
-        bool expansionOnThisGridPosition = ExpansionsContains(relativeMousePos);
+        Vector3 gridPosition = relativeMousePos + closestExpansion;
+        bool expansionOnThisGridPosition = ExpansionsContains();
         canBuildOnSelectedGridPosition = !expansionOnThisGridPosition && CheckForNeighbourExpansions(relativeMousePos);
-        if (!ExpansionsContains(relativeMousePos)) {
-            cursor.SetActive(true);
-        }
-        else {
-            cursor.SetActive(false);
-        }
+
+        cursor.SetActive(!expansionOnThisGridPosition);
     }
     void SnapCursorToGridPosition() {
         cursor.transform.position = kingdom.position + relativeMousePos + closestExpansion;
