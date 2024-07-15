@@ -16,14 +16,13 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private bool canBuildOnSelectedGridPosition;
 
     [Space]
-    [SerializeField] private float StartPrice;
-    [SerializeField] private float PriceMultiplier;
+    [SerializeField] private int StartPrice;
     [SerializeField] private TMP_Text costText;
     private int cost;
     [Space]
     private float cooldown;
     public HashSet<Expansion> expansions = new() {
-        new Expansion(Vector3.zero),
+        new Expansion(Vector3.zero)
     };
     public bool ExpansionsContains (Vector3 position) {
         foreach (Expansion expansion in expansions) {
@@ -46,18 +45,17 @@ public class BuildManager : MonoBehaviour
     public bool CheckForNeighbourExpansions (Vector3 position) {
         bool nextToExpansion = ExpansionsContains
         (
-            position + Vector3.up,
-            position + Vector3.down,
-            position + Vector3.left,
-            position + Vector3.right
+            position + Vector3.up/2,
+            position + Vector3.down/2,
+            position + Vector3.right/2,
+            position + Vector3.left/2
         );
 
         return nextToExpansion;
     }
 
     
-    private Vector3 mousePos;
-    private Vector3 relativeMousePos;
+    [SerializeField] private Vector3 mousePos, relativeMousePos, closestExpansion;
     void Update() 
     { 
         // get the mouseposition relative to the world
@@ -70,8 +68,11 @@ public class BuildManager : MonoBehaviour
         
         if (isBuilding) {    
             // calculates the difference between mouse and main kingdom
-            relativeMousePos = new Vector3 (Mathf.RoundToInt(mousePos.x - kingdom.position.x),Mathf.RoundToInt(mousePos.y - kingdom.position.y),0);
-
+            closestExpansion = FindClosestExpansion(mousePos - kingdom.position);
+            relativeMousePos = new Vector3 (
+                Mathf.RoundToInt((mousePos.x - kingdom.position.x)*2) * 0.5f,
+                Mathf.RoundToInt((mousePos.y - kingdom.position.y)*2) * 0.5f,
+                0);
             CheckIfCanBuildOnGridPosition();
             CursorColorCheck();
 
@@ -111,7 +112,7 @@ public class BuildManager : MonoBehaviour
 
             // creating a new expansion at the position of the cursor
             // this also sticks the expansion to a grid using Mathf.RoundToInt()
-            Instantiate(expansion, kingdom.position + relativeMousePos, Quaternion.identity, kingdom);
+            Instantiate(expansion, kingdom.position + closestExpansion + relativeMousePos, Quaternion.identity, kingdom);
             // adds relative mouse position to list
             Expansion expansionData = new(relativeMousePos);
             AddNewUsableSpaces(expansionData);
@@ -140,7 +141,6 @@ public class BuildManager : MonoBehaviour
     void CheckIfCanBuildOnGridPosition() {
         bool expansionOnThisGridPosition = ExpansionsContains(relativeMousePos);
         canBuildOnSelectedGridPosition = !expansionOnThisGridPosition && CheckForNeighbourExpansions(relativeMousePos);
-
         if (!ExpansionsContains(relativeMousePos)) {
             cursor.SetActive(true);
         }
@@ -149,13 +149,44 @@ public class BuildManager : MonoBehaviour
         }
     }
     void SnapCursorToGridPosition() {
-        cursor.transform.position = kingdom.position + relativeMousePos;
+        cursor.transform.position = kingdom.position + relativeMousePos + closestExpansion;
+    }
+
+    Vector3 FindClosestExpansion(Vector3 position)
+    {
+        HashSet<Expansion> originalExpansions = new() {
+        new Expansion(new Vector3(0.25f,0.25f,0)),
+        new Expansion(new Vector3(-0.25f,0.25f,0)),
+        new Expansion(new Vector3(0.25f,-0.25f,0)),
+        new Expansion(new Vector3(-0.25f,-0.25f,0))
+        };
+
+        float minDistance = float.MaxValue;
+        Vector3 closest = Vector3.zero;
+
+        // checks which expansion is closest to the mouse position
+        foreach (Expansion expansion in originalExpansions)
+        {
+            float distance = Vector3.Distance(position, expansion.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closest = expansion.position;
+            }
+        }
+
+        return closest;
     }
 
     void CostCalculator()
     {
+        int priceAddition = 0;
+        if (expansions.Count() > 1)
+        {
+            priceAddition = expansions.Count * StartPrice;
+        }
         // Seperately calculates cost
-        cost = Mathf.FloorToInt(StartPrice * (1 + (PriceMultiplier * (expansions.Count-1))));
+        cost = StartPrice + priceAddition; 
         costText.text = cost.ToString();
     }
 }
