@@ -1,27 +1,31 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BuildManager : MonoBehaviour
+public class BuildExpansionManager : MonoBehaviour
 {
     public ResourceManager resourceManager;
     [Space]
+
     [SerializeField] private GameObject cursor;
     [SerializeField] private SpriteRenderer cursorSpriteRenderer;
     [SerializeField] private GameObject expansion;
     [SerializeField] private Transform kingdom;
-    public bool isBuilding;
-    [SerializeField] private bool canBuildOnSelectedGridPosition;
+    [Space]
 
+    public bool isBuildingExpansion;
+    [SerializeField] private bool canBuildOnSelectedGridPosition;
+    [SerializeField] private BuildMode buildMode;
     [Space]
     [SerializeField] private int StartPrice;
     [SerializeField] private TMP_Text costText;
     private int cost;
     [Space]
     private float cooldown;
-    public HashSet<Expansion> expansions = new() {
+    [SerializeField] public HashSet<Expansion> expansions = new() {
         new Expansion(new Vector3(0.25f,0.25f,0)),
         new Expansion(new Vector3(-0.25f,0.25f,0)),
         new Expansion(new Vector3(0.25f,-0.25f,0)),
@@ -64,13 +68,12 @@ public class BuildManager : MonoBehaviour
             mousePos.z = 0;
         }
         
-        if (isBuilding) {    
+        if (isBuildingExpansion) {    
             // calculates the difference between mouse and main kingdom
             closestExpansion = FindClosestExpansion(mousePos - kingdom.position);
-            relativeMousePos = new Vector3 (
-                Mathf.RoundToInt((mousePos.x - kingdom.position.x)*2) * 0.5f,
-                Mathf.RoundToInt((mousePos.y - kingdom.position.y)*2) * 0.5f,
-                0);
+
+            CalculateRelativeMousePos();
+
             CheckIfCanBuildOnGridPosition();
             CursorColorCheck();
 
@@ -78,27 +81,29 @@ public class BuildManager : MonoBehaviour
             // Building Function
             Building();
         }
-
+        if (!buildMode.buildUI)
+        {
+            isBuildingExpansion = false;
+        }
         CostCalculator();
     }
-
-    public void Build()
+    public void BuildExpanion()
     {
         // Switches Build Mode
-        isBuilding = !isBuilding;
-
-        // (de)activate the cursor depending on isBuilding
-        cursor.SetActive(isBuilding);
+        isBuildingExpansion= !isBuildingExpansion;
+        // (de)activate the cursor depending on isBuildingExpansion
+        cursor.SetActive(isBuildingExpansion);
     }
     private void Building()
     {
-        if (!isBuilding) return;
+        if (!isBuildingExpansion
+) return;
 
         // set the position of this object to mousePos
         transform.position = mousePos;
 
         // removing the time between this frame and last frame from cooldown
-        cooldown -= Time.deltaTime;
+        cooldown -= Time.unscaledDeltaTime;
 
         // if the left mouse button is pressed and cooldown is less then or equals to 0
         if (Input.GetMouseButton(0) && cooldown <= 0 && canBuildOnSelectedGridPosition)
@@ -108,17 +113,21 @@ public class BuildManager : MonoBehaviour
 
             resourceManager.SubtractResource(new Resource(ResourceType.Wood, cost));
 
-            // creating a new expansion at the position of the cursor
-            // this also sticks the expansion to a grid using Mathf.RoundToInt()
-            Instantiate(expansion, kingdom.position + closestExpansion + relativeMousePos, Quaternion.identity, kingdom);
-            // adds relative mouse position to list
-            Expansion expansionData = new(relativeMousePos + closestExpansion);
-            AddNewUsableSpaces(expansionData);
-            // resetting the cooldown
-            cooldown = 0.2f;
+            StartCoroutine(PlaceExpansion( kingdom.position + closestExpansion + relativeMousePos));
         }
     }
-
+    IEnumerator PlaceExpansion(Vector3 position)
+    {
+        yield return null;
+        // creating a new expansion at the position of the cursor
+        // this also sticks the expansion to a grid using Mathf.RoundToInt()
+        Instantiate(expansion, position, Quaternion.identity, kingdom);
+        // adds relative mouse position to list
+        Expansion expansionData = new(relativeMousePos + closestExpansion);
+        AddNewUsableSpaces(expansionData);
+        // resetting the cooldown
+        cooldown = 0.2f;
+    }
 
     private void AddNewUsableSpaces (Expansion current)
     {
@@ -183,6 +192,36 @@ public class BuildManager : MonoBehaviour
         // Seperately calculates cost
         cost = StartPrice + priceAddition; 
         costText.text = cost.ToString();
+    }
+    
+    void CalculateRelativeMousePos()
+    {
+        float xDiff = mousePos.x - kingdom.position.x;
+        float yDiff = mousePos.y - kingdom.position.y;
+
+        float roundedX;
+        float roundedY;
+
+        if (xDiff >= 0)
+        {
+            roundedX = Mathf.Floor(xDiff * 2) * 0.5f;
+        }
+        else
+        {
+            roundedX = Mathf.Ceil(xDiff * 2) * 0.5f;
+        }
+
+        if (yDiff >= 0)
+        {
+            roundedY = Mathf.Floor(yDiff * 2) * 0.5f;
+        }
+        else
+        {
+            roundedY = Mathf.Ceil(yDiff * 2) * 0.5f;
+        }
+
+        relativeMousePos = new Vector3(roundedX, roundedY, 0);
+
     }
 }
 

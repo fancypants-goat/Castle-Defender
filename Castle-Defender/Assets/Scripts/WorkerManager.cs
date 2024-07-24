@@ -7,7 +7,7 @@ public class WorkerManager : MonoBehaviour
     public ResourceManager resourceManager;
     [Space]
 
-    [SerializeField] private BuildManager buildManager;
+    [SerializeField] private BuildExpansionManager buildManager;
     [Space]
 
     [SerializeField] private SelectionManager selectionManager;

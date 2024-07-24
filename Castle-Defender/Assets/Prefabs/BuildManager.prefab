@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7487727542431286428}
   - component: {fileID: 7670975357208052764}
+  - component: {fileID: 5650328950247473104}
   m_Layer: 0
   m_Name: BuildManager
   m_TagString: Untagged
@@ -49,7 +50,25 @@ MonoBehaviour:
   cursorSpriteRenderer: {fileID: 0}
   expansion: {fileID: 6834006752241240086, guid: 89a08406b059d1b4abc2a1a7462c4b86, type: 3}
   kingdom: {fileID: 0}
-  isBuilding: 0
+  isBuildingExpansion: 0
   canBuildOnSelectedGridPosition: 0
+  buildMode: {fileID: 5650328950247473104}
   StartPrice: 10
-  PriceMultiplier: 4
+  costText: {fileID: 0}
+  mousePos: {x: 0, y: 0, z: 0}
+  relativeMousePos: {x: 0, y: 0, z: 0}
+  closestExpansion: {x: 0, y: 0, z: 0}
+--- !u!114 &5650328950247473104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4119879096352005845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fc55acdc90cd694b935d142aeb2dba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildUI: 0
+  panel: {fileID: 0}
