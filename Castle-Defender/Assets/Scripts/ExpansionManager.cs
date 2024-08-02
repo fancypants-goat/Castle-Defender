@@ -1,11 +1,11 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BuildExpansionManager : MonoBehaviour
+public class ExpansionManager : MonoBehaviour
 {
     public ResourceManager resourceManager;
     [Space]
@@ -26,10 +26,7 @@ public class BuildExpansionManager : MonoBehaviour
     [Space]
     private float cooldown;
     [SerializeField] public HashSet<Expansion> expansions = new() {
-        new Expansion(new Vector3(0.25f,0.25f,0)),
-        new Expansion(new Vector3(-0.25f,0.25f,0)),
-        new Expansion(new Vector3(0.25f,-0.25f,0)),
-        new Expansion(new Vector3(-0.25f,-0.25f,0))
+        new Expansion(Vector3.zero)
     };
     public bool ExpansionsContains (Vector3 position) {
         foreach (Expansion expansion in expansions) {
@@ -50,14 +47,14 @@ public class BuildExpansionManager : MonoBehaviour
         return false;
     }
     public bool CheckForNeighbourExpansions (Vector3 position) {
-        return ExpansionsContains(position + Vector3.up/2) ||
-            ExpansionsContains(position + Vector3.down/2) ||
-            ExpansionsContains(position + Vector3.right/2) ||
-            ExpansionsContains(position + Vector3.left/2);
+        return ExpansionsContains(position + Vector3.up) ||
+            ExpansionsContains(position + Vector3.down) ||
+            ExpansionsContains(position + Vector3.right) ||
+            ExpansionsContains(position + Vector3.left);
     }
 
     
-    [SerializeField] private Vector3 mousePos, relativeMousePos, closestExpansion;
+    [SerializeField] private Vector3 mousePos, relativeMousePos;
     void Update() 
     { 
         // get the mouseposition relative to the world
@@ -70,7 +67,6 @@ public class BuildExpansionManager : MonoBehaviour
         
         if (isBuildingExpansion) {    
             // calculates the difference between mouse and main kingdom
-            closestExpansion = FindClosestExpansion(mousePos - kingdom.position);
 
             CalculateRelativeMousePos();
 
@@ -96,8 +92,7 @@ public class BuildExpansionManager : MonoBehaviour
     }
     private void Building()
     {
-        if (!isBuildingExpansion
-) return;
+        if (!isBuildingExpansion) return;
 
         // set the position of this object to mousePos
         transform.position = mousePos;
@@ -113,7 +108,7 @@ public class BuildExpansionManager : MonoBehaviour
 
             resourceManager.SubtractResource(new Resource(ResourceType.Wood, cost));
 
-            StartCoroutine(PlaceExpansion( kingdom.position + closestExpansion + relativeMousePos));
+            StartCoroutine(PlaceExpansion(kingdom.position + relativeMousePos));
         }
     }
     IEnumerator PlaceExpansion(Vector3 position)
@@ -123,7 +118,7 @@ public class BuildExpansionManager : MonoBehaviour
         // this also sticks the expansion to a grid using Mathf.RoundToInt()
         Instantiate(expansion, position, Quaternion.identity, kingdom);
         // adds relative mouse position to list
-        Expansion expansionData = new(relativeMousePos + closestExpansion);
+        Expansion expansionData = new(relativeMousePos);
         AddNewUsableSpaces(expansionData);
         // resetting the cooldown
         cooldown = 0.2f;
@@ -146,40 +141,16 @@ public class BuildExpansionManager : MonoBehaviour
         }
     }
     void CheckIfCanBuildOnGridPosition() {
-        Vector3 gridPosition = relativeMousePos + closestExpansion;
+        Vector3 gridPosition = relativeMousePos;
         bool expansionOnThisGridPosition = ExpansionsContains(gridPosition);
         canBuildOnSelectedGridPosition = !expansionOnThisGridPosition && CheckForNeighbourExpansions(gridPosition);
 
         cursor.SetActive(!expansionOnThisGridPosition);
     }
     void SnapCursorToGridPosition() {
-        cursor.transform.position = kingdom.position + relativeMousePos + closestExpansion;
-    }
-
-    Vector3 FindClosestExpansion(Vector3 position)
-    {
-        HashSet<Expansion> originalExpansions = new() {
-        new Expansion(new Vector3(0.25f,0.25f,0)),
-        new Expansion(new Vector3(-0.25f,0.25f,0)),
-        new Expansion(new Vector3(0.25f,-0.25f,0)),
-        new Expansion(new Vector3(-0.25f,-0.25f,0))
-        };
-
-        float minDistance = float.MaxValue;
-        Vector3 closest = Vector3.zero;
-
-        // checks which expansion is closest to the mouse position
-        foreach (Expansion expansion in originalExpansions)
-        {
-            float distance = Vector3.Distance(position, expansion.position);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                closest = expansion.position;
-            }
-        }
-
-        return closest;
+        cursor.transform.position = kingdom.position + relativeMousePos;
+        cursorSpriteRenderer.sprite = expansion.GetComponent<SpriteRenderer>().sprite;
+        cursor.transform.localScale = expansion.transform.localScale;
     }
 
     void CostCalculator()
@@ -196,32 +167,7 @@ public class BuildExpansionManager : MonoBehaviour
     
     void CalculateRelativeMousePos()
     {
-        float xDiff = mousePos.x - kingdom.position.x;
-        float yDiff = mousePos.y - kingdom.position.y;
-
-        float roundedX;
-        float roundedY;
-
-        if (xDiff >= 0)
-        {
-            roundedX = Mathf.Floor(xDiff * 2) * 0.5f;
-        }
-        else
-        {
-            roundedX = Mathf.Ceil(xDiff * 2) * 0.5f;
-        }
-
-        if (yDiff >= 0)
-        {
-            roundedY = Mathf.Floor(yDiff * 2) * 0.5f;
-        }
-        else
-        {
-            roundedY = Mathf.Ceil(yDiff * 2) * 0.5f;
-        }
-
-        relativeMousePos = new Vector3(roundedX, roundedY, 0);
-
+        relativeMousePos = new Vector3 (Mathf.RoundToInt(mousePos.x - kingdom.position.x),Mathf.RoundToInt(mousePos.y - kingdom.position.y),0);
     }
 }
 

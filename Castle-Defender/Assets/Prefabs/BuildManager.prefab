@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7487727542431286428}
   - component: {fileID: 7670975357208052764}
   - component: {fileID: 5650328950247473104}
+  - component: {fileID: 1961068557756097706}
   m_Layer: 0
   m_Name: BuildManager
   m_TagString: Untagged
@@ -48,16 +49,19 @@ MonoBehaviour:
   resourceManager: {fileID: 0}
   cursor: {fileID: 0}
   cursorSpriteRenderer: {fileID: 0}
-  expansion: {fileID: 6834006752241240086, guid: 89a08406b059d1b4abc2a1a7462c4b86, type: 3}
+  building: {fileID: 6834006752241240086, guid: 89a08406b059d1b4abc2a1a7462c4b86, type: 3}
   kingdom: {fileID: 0}
-  isBuildingExpansion: 0
+  isBuildingBuilding: 0
   canBuildOnSelectedGridPosition: 0
   buildMode: {fileID: 5650328950247473104}
   StartPrice: 10
   costText: {fileID: 0}
+  expansionLayer:
+    serializedVersion: 2
+    m_Bits: 256
   mousePos: {x: 0, y: 0, z: 0}
   relativeMousePos: {x: 0, y: 0, z: 0}
-  closestExpansion: {x: 0, y: 0, z: 0}
+  closestPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &5650328950247473104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,3 +76,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildUI: 0
   panel: {fileID: 0}
+--- !u!114 &1961068557756097706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4119879096352005845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e694d369b32f5e348979e895407f0a25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceManager: {fileID: 0}
+  cursor: {fileID: 0}
+  cursorSpriteRenderer: {fileID: 0}
+  expansion: {fileID: 3262257011139298633, guid: c7dbd04e95a4a5443b36096c186c7034, type: 3}
+  kingdom: {fileID: 0}
+  isBuildingExpansion: 0
+  canBuildOnSelectedGridPosition: 0
+  buildMode: {fileID: 5650328950247473104}
+  StartPrice: 10
+  costText: {fileID: 0}
+  mousePos: {x: 0, y: 0, z: 0}
+  relativeMousePos: {x: 0, y: 0, z: 0}

@@ -7,7 +7,7 @@ public class WorkerManager : MonoBehaviour
     public ResourceManager resourceManager;
     [Space]
 
-    [SerializeField] private BuildExpansionManager buildManager;
+    [SerializeField] private BuildingManager buildManager;
     [Space]
 
     [SerializeField] private SelectionManager selectionManager;
@@ -43,10 +43,10 @@ public class WorkerManager : MonoBehaviour
 
     void WorkerSpawn()
     {
-        if (selectionManager.totalWorkers.Count < buildManager.expansions.Count - 3)
+        if (selectionManager.totalWorkers.Count < buildManager.Buildings.Count - 3)
         {
             float y = -0.6f;
-            foreach (Expansion expansion in buildManager.expansions)
+            foreach (Building expansion in buildManager.Buildings)
             {
                 if (expansion.position.x == 0 && expansion.position.y < y)
                 {
