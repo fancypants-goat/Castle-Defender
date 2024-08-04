@@ -26,7 +26,7 @@ public class BuildingManager : MonoBehaviour
     [Space]
     [SerializeField] private LayerMask expansionLayer;
     private float cooldown;
-    [SerializeField] public HashSet<Building> Buildings = new() {
+    public HashSet<Building> Buildings = new() {
         new Building(new Vector3(0.25f,0.25f,0)),
         new Building(new Vector3(-0.25f,0.25f,0)),
         new Building(new Vector3(0.25f,-0.25f,0)),
@@ -57,6 +57,7 @@ public class BuildingManager : MonoBehaviour
     }
 
     [SerializeField] private Vector3 mousePos, relativeMousePos, closestPoint;
+    public List<GameObject> DropOffs = new List<GameObject>();
     void Update() 
     { 
         // get the mouseposition relative to the world
@@ -111,7 +112,7 @@ public class BuildingManager : MonoBehaviour
 
             resourceManager.SubtractResource(new Resource(ResourceType.Wood, cost));
 
-            StartCoroutine(PlaceBuilding( kingdom.position + closestPoint + relativeMousePos));
+            StartCoroutine(PlaceBuilding(kingdom.position + closestPoint + relativeMousePos));
         }
     }
     IEnumerator PlaceBuilding(Vector3 position)
@@ -119,12 +120,14 @@ public class BuildingManager : MonoBehaviour
         yield return null;
         // creating a new Building at the position of the cursor
         // this also sticks the Building to a grid using Mathf.RoundToInt()
-        Instantiate(building, position, Quaternion.identity, kingdom);
+        GameObject specific = Instantiate(building, position, Quaternion.identity, kingdom);
         // adds relative mouse position to list
         Building BuildingData = new(relativeMousePos + closestPoint);
         AddNewUsableSpaces(BuildingData);
         // resetting the cooldown
         cooldown = 0.2f;
+        // add to dropoff list
+        DropOffs.Add(specific);
     }
 
     private void AddNewUsableSpaces (Building current)

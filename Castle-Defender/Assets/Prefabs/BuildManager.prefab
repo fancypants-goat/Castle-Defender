@@ -76,6 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildUI: 0
   panel: {fileID: 0}
+  cursor: {fileID: 0}
 --- !u!114 &1961068557756097706
 MonoBehaviour:
   m_ObjectHideFlags: 0

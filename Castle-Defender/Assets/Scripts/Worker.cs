@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,16 +13,17 @@ public class Worker : MonoBehaviour
     private ResourceType resourceType;
     [Space]
 
-    public Vector3 kingdomTarget;
     [SerializeField] LayerMask kingdomLayer;
     [SerializeField] private GameObject kingdom;
     public float speed;
     private float minimumDistance = 0.7f;
     public bool reachedTarget ,shouldMove ,working, carrying;
     private WorkerManager workerManager;
+    private BuildingManager buildingManager;
     void Start()
     {
         kingdom = GameObject.FindGameObjectWithTag("Kingdom");
+        buildingManager = FindObjectOfType<BuildingManager>();
         workerManager = kingdom.GetComponent<WorkerManager>();
         resourceManager = kingdom.GetComponent<ResourceManager>();
     }
@@ -29,7 +31,6 @@ public class Worker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CalculateKingdomTarget();
         ColorChange();
         if (!working)
         {
@@ -73,10 +74,10 @@ public class Worker : MonoBehaviour
     IEnumerator Move()
     {
         // check if the worker has reached the target or the resourcetarget is not assigned
-        Vector3 Destination = reachedTarget || resourceTarget == null ? kingdomTarget : resourceTarget.transform.position;
+        Vector3 Destination = reachedTarget || resourceTarget == null ? kingdomTarget() : resourceTarget.transform.position;
 
         // check if the worker is in reach of the castle
-        if (Vector2.Distance(transform.position, kingdomTarget) <= minimumDistance && resourceTarget == null) {
+        if (Vector2.Distance(transform.position, kingdomTarget()) <= minimumDistance && resourceTarget == null) {
             // stop the worker from moving
             shouldMove = false;
             yield break;
@@ -106,7 +107,7 @@ public class Worker : MonoBehaviour
                     resource.amount--;
                 }
             }
-            if (Vector2.Distance(kingdomTarget, transform.position) < minimumDistance && carrying)
+            if (Vector2.Distance(kingdomTarget(), transform.position) < minimumDistance && carrying)
             {     
                 resourceManager.AddResource(new Resource (resourceType, 1));
                 carrying = false;
@@ -122,10 +123,10 @@ public class Worker : MonoBehaviour
         if (resourceTarget  ==  null)
         {
             // checking if the worker is more then 2 units away from the castle
-            if (Vector2.Distance(transform.position, kingdomTarget) > 2)
+            if (Vector2.Distance(transform.position, kingdomTarget()) > 2)
             {
                 // setting the new position
-                transform.position = Vector2.Lerp(transform.position, kingdomTarget, Time.deltaTime);
+                transform.position = Vector2.Lerp(transform.position, kingdomTarget(), Time.deltaTime);
             }
         }
         else
@@ -133,21 +134,16 @@ public class Worker : MonoBehaviour
             shouldMove = true;
         }
     }
-    void CalculateKingdomTarget()
+    Vector3 kingdomTarget()
     {
-        // Casts a ray in the direction of main castle
-        Vector3 raycastDir = (kingdom.transform.position - transform.position).normalized;
-        RaycastHit2D targetPosition = Physics2D.Raycast(transform.position, raycastDir, Mathf.Infinity, kingdomLayer);
-        // if an expansion hits the ray 
-        // makes worker drop off resource at that expansion
-        if (targetPosition.collider != null && targetPosition.collider.CompareTag("Kingdom"))
+        Vector3 ClosestDropoff = kingdom.transform.position;
+        foreach (var building in buildingManager.DropOffs)
         {
-            kingdomTarget = targetPosition.transform.position;
+            if (Vector2.Distance(building.transform.position,transform.position) < Vector2.Distance(ClosestDropoff,transform.position))
+            {
+                ClosestDropoff = building.transform.position;
+            }
         }
-        else
-        {
-            kingdomTarget = kingdom.transform.position;
-        }
-        Debug.DrawLine(transform.position, kingdomTarget);
+        return ClosestDropoff;
     }
 }

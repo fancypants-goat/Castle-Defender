@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1949686771508285775}
   - component: {fileID: 8741284157082272667}
   - component: {fileID: 5308919615163953104}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3
+  orthographic size: 2
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -102,8 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2153266193715008015}
   - component: {fileID: 7512697671465241200}
-  - component: {fileID: 9107720644047619970}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: KingdomCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,14 +175,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &9107720644047619970
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2680590023603171426}
-  m_Enabled: 1
 --- !u!1 &3976056266937331031
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +189,7 @@ GameObject:
   - component: {fileID: 9074198366150649552}
   - component: {fileID: 6213024395327126304}
   - component: {fileID: 2892809971051791472}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Kingdom
   m_TagString: Kingdom
   m_Icon: {fileID: 0}
@@ -215,7 +206,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1949686771508285775}
@@ -263,8 +254,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 81fcf1962991cde47b30717715de26f5, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 7482667652216324306, guid: 8a2b2159937499749b35552f332c04a4, type: 3}
+  m_Color: {r: 0.49411768, g: 0.3019608, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -345,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eb65de98e5430a419e3a8180ba008ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxmoveSpeed: 2
+  maxmoveSpeed: 1
 --- !u!114 &2892809971051791472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,7 +354,5 @@ MonoBehaviour:
   selectionManager: {fileID: 0}
   worker: {fileID: 8496542414728168963, guid: ec1af330e54e9874abdd40221e03e1ac, type: 3}
   kingdom: {fileID: 3476789061596666132}
-  target: {x: 0, y: 0, z: 0}
-  shouldMove: 0
-  color: {r: 0, g: 0, b: 0, a: 0}
+  target: {fileID: 0}
   selectedWorkers: []

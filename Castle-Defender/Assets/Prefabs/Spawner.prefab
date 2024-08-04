@@ -51,3 +51,14 @@ MonoBehaviour:
     top: 50
   monsterPrefab: {fileID: 1314951755837579314, guid: 6c7354de08c4fb34981106fb2225e426, type: 3}
   resourcePrefab: {fileID: 6902486944734425116, guid: 4bba3a0ee10cb8948b6da7ca5f628b1d, type: 3}
+  tilemap: {fileID: 0}
+  tiles:
+  - {fileID: 11400000, guid: 3221d7fd0c8ce984dbb342abd483450b, type: 2}
+  - {fileID: 11400000, guid: 299acec4ad29c8144ac48377fa04494e, type: 2}
+  - {fileID: 11400000, guid: 6c164cc1b8a59434a883d65a929d7083, type: 2}
+  - {fileID: 11400000, guid: b02f818bc306dd04b8ba6290a2a9b9b3, type: 2}
+  - {fileID: 11400000, guid: 3698d35288f3b2844b0a3b69b778de37, type: 2}
+  - {fileID: 11400000, guid: 27fcdea78dc25cc4b94d20e28f4c6ecd, type: 2}
+  - {fileID: 11400000, guid: bc4fc2b058615f64998d00bf3ab67cdd, type: 2}
+  - {fileID: 11400000, guid: 9ac2cd68803f5754f8966f79bfd92512, type: 2}
+  - {fileID: 11400000, guid: cc04763e16f9bee4cbc03aa728cc4789, type: 2}

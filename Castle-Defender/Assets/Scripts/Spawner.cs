@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class MonsterSpawner : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
 
     public LevelBounds bounds;
@@ -94,6 +94,7 @@ public class MonsterSpawner : MonoBehaviour
         Debug.DrawLine(topRight, bottomRight, Color.green);
         Debug.DrawLine(bottomRight, bottomLeft, Color.green);
         Debug.DrawLine(bottomLeft, topLeft, Color.green);
+
     }
 }
 
