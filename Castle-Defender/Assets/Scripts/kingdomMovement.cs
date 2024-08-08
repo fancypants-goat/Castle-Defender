@@ -1,14 +1,18 @@
 using UnityEngine;
 
-public class kingdomMovement : MonoBehaviour
+public class KingdomMovement : MonoBehaviour
 {
     
     [SerializeField] float maxmoveSpeed;
     private Vector2 movement;
+    public BuildMode buildMode;
     // Update is called once per frame
     void Update()
     {
-        Move();
+        if (buildMode.walkMode)
+        {
+            Move();
+        }
     }
 
     void Move()

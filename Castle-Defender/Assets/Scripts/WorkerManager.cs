@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class WorkerManager : MonoBehaviour
@@ -10,18 +12,16 @@ public class WorkerManager : MonoBehaviour
     [SerializeField] private BuildingManager buildManager;
     [Space]
 
-    [SerializeField] private SelectionManager selectionManager;
-    [Space]
-
     [SerializeField] private GameObject worker;
     [SerializeField] private Transform kingdom;
     [Space]
 
     public GameObject target;
     public List<GameObject> selectedWorkers = new List<GameObject>();
+    public List<GameObject> totalWorkers = new List<GameObject>();
     void Start()
     {
-        selectionManager = FindObjectOfType<SelectionManager>();
+
     }
 
     // Update is called once per frame
@@ -43,18 +43,13 @@ public class WorkerManager : MonoBehaviour
 
     void WorkerSpawn()
     {
-        if (selectionManager.totalWorkers.Count < buildManager.Buildings.Count - 3)
+        if (totalWorkers.Count < GameManager.Instance.totalWorkers)
         {
-            float y = -0.6f;
-            foreach (Building expansion in buildManager.Buildings)
-            {
-                if (expansion.position.x == 0 && expansion.position.y < y)
-                {
-                    y = expansion.position.y - 0.6f;
-                }
-            }
-            GameObject newWorker = Instantiate(worker,new Vector2(kingdom.position.x, kingdom.position.y + y),Quaternion.identity);
-            selectionManager.totalWorkers.Add(newWorker);
+            // instantiates works
+            // which can later be selected and send to get resource
+            GameObject _worker = Instantiate(worker);
+            _worker.SetActive(false);
+            totalWorkers.Add(_worker);
         }
     }
 }

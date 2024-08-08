@@ -7,13 +7,11 @@ public class ResourceItem : MonoBehaviour
 {
     public Resource resource;
     private WorkerManager workerManager;
-    private SelectionManager selectionManager;
 
     void Start() 
     {
         resource.amount = Random.Range(10,21);
         workerManager = FindObjectOfType<WorkerManager>();
-        selectionManager = FindObjectOfType<SelectionManager>();
     }
 
     void Update()
@@ -31,14 +29,6 @@ public class ResourceItem : MonoBehaviour
         StartCoroutine(ClearList());
     }
 
-    void OnMouseEnter() 
-    {
-        selectionManager.selectingResource = true;
-    }
-    void OnMouseExit() 
-    {
-        selectionManager.selectingResource = false;;
-    }
     IEnumerator ClearList()
     {
         yield return null;

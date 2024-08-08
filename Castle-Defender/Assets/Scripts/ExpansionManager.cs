@@ -116,7 +116,7 @@ public class ExpansionManager : MonoBehaviour
         yield return null;
         // creating a new expansion at the position of the cursor
         // this also sticks the expansion to a grid using Mathf.RoundToInt()
-        Instantiate(expansion, position, Quaternion.identity, kingdom);
+        Instantiate(expansion, position, Quaternion.identity, kingdom.transform.GetChild(3));
         // adds relative mouse position to list
         Expansion expansionData = new(relativeMousePos);
         AddNewUsableSpaces(expansionData);

@@ -120,7 +120,7 @@ public class BuildingManager : MonoBehaviour
         yield return null;
         // creating a new Building at the position of the cursor
         // this also sticks the Building to a grid using Mathf.RoundToInt()
-        GameObject specific = Instantiate(building, position, Quaternion.identity, kingdom);
+        GameObject specific = Instantiate(building, position, Quaternion.identity, kingdom.transform.GetChild(3));
         // adds relative mouse position to list
         Building BuildingData = new(relativeMousePos + closestPoint);
         AddNewUsableSpaces(BuildingData);
