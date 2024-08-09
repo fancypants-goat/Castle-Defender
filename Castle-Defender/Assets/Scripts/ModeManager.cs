@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildMode : MonoBehaviour
+public class ModeManager : MonoBehaviour
 {
     public bool buildUI;
     public bool walkMode;
-    [SerializeField] private GameObject panel, cursor, wholeKingdom, kingdomParts;
+    [SerializeField] private GameObject panel, buildButton, cursor, wholeKingdom, kingdomParts;
     public void Build()
     {
         buildUI = !buildUI;
@@ -23,6 +23,7 @@ public class BuildMode : MonoBehaviour
         walkMode = !walkMode;
         // Sets whether only the outer sprite is active or the city
         wholeKingdom.SetActive(walkMode);
+        buildButton.SetActive(!walkMode);
         kingdomParts.SetActive(!walkMode);
 
         // Sets Camera to show outer sprite

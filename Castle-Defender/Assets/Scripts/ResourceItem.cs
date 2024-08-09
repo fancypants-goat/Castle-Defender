@@ -7,7 +7,6 @@ public class ResourceItem : MonoBehaviour
 {
     public Resource resource;
     private WorkerManager workerManager;
-
     void Start() 
     {
         resource.amount = Random.Range(10,21);
@@ -23,16 +22,8 @@ public class ResourceItem : MonoBehaviour
     }
     void OnMouseDown() 
     {
-        // set target for selected workers to itself
-        workerManager.target = gameObject; 
-        // clear selected worker list 
-        StartCoroutine(ClearList());
-    }
-
-    IEnumerator ClearList()
-    {
-        yield return null;
-        workerManager.selectedWorkers.Clear();
+        GameManager.Instance.workerPanel.SetActive(true);
+        workerManager.target = gameObject;
     }
 }
 

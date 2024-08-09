@@ -18,7 +18,7 @@ public class BuildingManager : MonoBehaviour
 
     public bool isBuildingBuilding;
     [SerializeField] private bool canBuildOnSelectedGridPosition;
-    [SerializeField] private BuildMode buildMode;
+    [SerializeField] private ModeManager buildMode;
     [Space]
     [SerializeField] private int StartPrice;
     [SerializeField] private TMP_Text costText;

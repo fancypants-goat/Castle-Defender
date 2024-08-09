@@ -5,7 +5,7 @@ public class KingdomMovement : MonoBehaviour
     
     [SerializeField] float maxmoveSpeed;
     private Vector2 movement;
-    public BuildMode buildMode;
+    public ModeManager buildMode;
     // Update is called once per frame
     void Update()
     {

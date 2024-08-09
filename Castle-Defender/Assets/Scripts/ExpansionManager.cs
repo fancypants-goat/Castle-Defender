@@ -18,7 +18,7 @@ public class ExpansionManager : MonoBehaviour
 
     public bool isBuildingExpansion;
     [SerializeField] private bool canBuildOnSelectedGridPosition;
-    [SerializeField] private BuildMode buildMode;
+    [SerializeField] private ModeManager buildMode;
     [Space]
     [SerializeField] private int StartPrice;
     [SerializeField] private TMP_Text costText;

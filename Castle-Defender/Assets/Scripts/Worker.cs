@@ -31,7 +31,6 @@ public class Worker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ColorChange();
         if (!working)
         {
             Idle();
@@ -43,34 +42,6 @@ public class Worker : MonoBehaviour
         }
     }
 
-    void OnMouseDown() 
-    {
-        // select worker and add or remove it from list
-        if (!workerManager.selectedWorkers.Contains(gameObject))
-        {
-            workerManager.selectedWorkers.Add(gameObject);
-        }
-        else
-        {
-            workerManager.selectedWorkers.Remove(gameObject);
-
-        }
-        reachedTarget = false;
-    }
-
-    void ColorChange()
-    {
-        GameObject selectionShow = gameObject.transform.GetChild(0).gameObject;
-        if (workerManager.selectedWorkers.Contains(gameObject))
-        {
-            selectionShow.SetActive(true);
-        }
-        else
-        {
-            selectionShow.SetActive(false);
-        }
-    }
-
     IEnumerator Move()
     {
         // check if the worker has reached the target or the resourcetarget is not assigned
@@ -79,7 +50,7 @@ public class Worker : MonoBehaviour
         // check if the worker is in reach of the castle
         if (Vector2.Distance(transform.position, kingdomTarget()) <= minimumDistance && resourceTarget == null) {
             // stop the worker from moving
-            shouldMove = false;
+            gameObject.SetActive(false);
             yield break;
         }
 
