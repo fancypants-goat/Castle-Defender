@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7205766126513310870}
   - component: {fileID: -8705626858601019852}
   m_Layer: 6
-  m_Name: Building
+  m_Name: DropOff
   m_TagString: Kingdom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

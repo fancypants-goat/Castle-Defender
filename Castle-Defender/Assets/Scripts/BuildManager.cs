@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BuildingManager : MonoBehaviour
 {
@@ -12,7 +13,9 @@ public class BuildingManager : MonoBehaviour
 
     [SerializeField] private GameObject cursor;
     [SerializeField] private SpriteRenderer cursorSpriteRenderer;
-    [SerializeField] private GameObject building;
+    [SerializeField] private List<GameObject> buildingPrefabs = new List<GameObject>();
+    private GameObject currentBuilding;
+    [SerializeField] private List<Button> buildingButtons = new List<Button>();
     [SerializeField] private Transform kingdom;
     [Space]
 
@@ -58,6 +61,22 @@ public class BuildingManager : MonoBehaviour
 
     [SerializeField] private Vector3 mousePos, relativeMousePos, closestPoint;
     public List<GameObject> DropOffs = new List<GameObject>();
+
+    void Start() 
+    {
+        // sets default building
+        if (buildingPrefabs != null && buildingPrefabs.Count > 0)
+        {
+            currentBuilding = buildingPrefabs[0];
+        }
+
+        // sets each button to its building
+        for (int i = 0; i < buildingButtons.Count; i++)
+        {
+            int index = i;
+            buildingButtons[i].onClick.AddListener(() => SelectBuilding(index));
+        }
+    }
     void Update() 
     { 
         // get the mouseposition relative to the world
@@ -87,13 +106,6 @@ public class BuildingManager : MonoBehaviour
         }
         CostCalculator();
     }
-    public void BuildExpanion()
-    {
-        // Switches Build Mode
-        isBuildingBuilding= !isBuildingBuilding;
-        // (de)activate the cursor depending on isBuildingBuilding
-        cursor.SetActive(isBuildingBuilding);
-    }
     private void Building()
     {
         if (!isBuildingBuilding) return;
@@ -120,14 +132,17 @@ public class BuildingManager : MonoBehaviour
         yield return null;
         // creating a new Building at the position of the cursor
         // this also sticks the Building to a grid using Mathf.RoundToInt()
-        GameObject specific = Instantiate(building, position, Quaternion.identity, kingdom.transform.GetChild(3));
+        GameObject specific = Instantiate(currentBuilding, position, Quaternion.identity, kingdom.transform.GetChild(3));
         // adds relative mouse position to list
         Building BuildingData = new(relativeMousePos + closestPoint);
         AddNewUsableSpaces(BuildingData);
         // resetting the cooldown
         cooldown = 0.2f;
         // add to dropoff list
-        DropOffs.Add(specific);
+        if (currentBuilding == buildingPrefabs[0])
+        {
+            DropOffs.Add(specific);
+        }
     }
 
     private void AddNewUsableSpaces (Building current)
@@ -155,8 +170,6 @@ public class BuildingManager : MonoBehaviour
     }
     void SnapCursorToGridPosition() {
         cursor.transform.position = kingdom.position + relativeMousePos + closestPoint;
-        cursorSpriteRenderer.sprite = building.GetComponent<SpriteRenderer>().sprite;
-        cursor.transform.localScale = building.transform.localScale;
     }
 
     Vector3 FindClosestBuilding(Vector3 position)
@@ -225,6 +238,18 @@ public class BuildingManager : MonoBehaviour
 
         relativeMousePos = new Vector3(roundedX, roundedY, 0);
 
+    }
+
+    public void SelectBuilding(int index)
+    {
+        isBuildingBuilding = true;
+        // (de)activate the cursor depending on isBuildingBuilding
+        cursor.SetActive(isBuildingBuilding);
+
+        // sets building and cursor
+        currentBuilding = buildingPrefabs[index];
+        cursorSpriteRenderer.sprite = currentBuilding.GetComponent<SpriteRenderer>().sprite;
+        cursor.transform.localScale = currentBuilding.transform.localScale;
     }
 }
 

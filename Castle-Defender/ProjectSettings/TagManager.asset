@@ -43,3 +43,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Kingdom
+    uniqueID: 1625246535
+    locked: 0
