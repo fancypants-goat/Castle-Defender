@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public class BuildingManager : MonoBehaviour
@@ -27,7 +28,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private TMP_Text costText;
     private int cost;
     [Space]
-    [SerializeField] private LayerMask expansionLayer;
+    [SerializeField] private Tilemap expansionTileMap;
     private float cooldown;
     public HashSet<Building> Buildings = new() {
         new Building(new Vector3(0.25f,0.25f,0)),
@@ -56,7 +57,8 @@ public class BuildingManager : MonoBehaviour
     
     private bool IsOnExpansion(Vector3 position)
     {
-        return Physics2D.OverlapPoint(position,expansionLayer, 10, -10);
+        Vector3Int cellPosition = expansionTileMap.WorldToCell(position);
+        return expansionTileMap.HasTile(cellPosition);
     }
 
     [SerializeField] private Vector3 mousePos, relativeMousePos, closestPoint;

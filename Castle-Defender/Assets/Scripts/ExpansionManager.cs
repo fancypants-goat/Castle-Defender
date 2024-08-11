@@ -4,27 +4,27 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class ExpansionManager : MonoBehaviour
 {
     public ResourceManager resourceManager;
     [Space]
 
-    [SerializeField] private GameObject cursor;
+    [SerializeField] private GameObject cursor, emptySpace;
     [SerializeField] private SpriteRenderer cursorSpriteRenderer;
-    [SerializeField] private GameObject expansion;
+    [SerializeField] private RuleTile expansion;
     [SerializeField] private Transform kingdom;
+    [SerializeField] private Tilemap expansionTilemap;
     [Space]
 
     public bool isBuildingExpansion;
-    [SerializeField] private bool canBuildOnSelectedGridPosition;
     [SerializeField] private ModeManager buildMode;
     [Space]
     [SerializeField] private int StartPrice;
     [SerializeField] private TMP_Text costText;
-    private int cost;
+    public int cost;
     [Space]
-    private float cooldown;
     [SerializeField] public HashSet<Expansion> expansions = new() {
         new Expansion(Vector3.zero)
     };
@@ -53,8 +53,33 @@ public class ExpansionManager : MonoBehaviour
             ExpansionsContains(position + Vector3.left);
     }
 
+    public List<Vector3> GetEmptyNeighbourPositions (Vector3 position)
+    {
+        Vector3[] directions = 
+    {
+        Vector3.up,
+        Vector3.down,
+        Vector3.left,
+        Vector3.right,
+    };
+
+    List<Vector3> neighborPositions = new List<Vector3>();
+
+    // Loop through the directions and check for neighbors
+    foreach (var direction in directions)
+    {
+        if (!ExpansionsContains(position + direction))
+        {
+            neighborPositions.Add(position + direction);
+        }
+    }
+
+    return neighborPositions;
+    }
     
-    [SerializeField] private Vector3 mousePos, relativeMousePos;
+    private Vector3 mousePos;
+    [SerializeField] private Vector3Int relativeMousePos;
+
     void Update() 
     { 
         // get the mouseposition relative to the world
@@ -65,18 +90,8 @@ public class ExpansionManager : MonoBehaviour
             mousePos.z = 0;
         }
         
-        if (isBuildingExpansion) {    
-            // calculates the difference between mouse and main kingdom
+        CalculateRelativeMousePos();
 
-            CalculateRelativeMousePos();
-
-            CheckIfCanBuildOnGridPosition();
-            CursorColorCheck();
-
-            SnapCursorToGridPosition();
-            // Building Function
-            Building();
-        }
         if (!buildMode.buildUI)
         {
             isBuildingExpansion = false;
@@ -90,67 +105,47 @@ public class ExpansionManager : MonoBehaviour
         // (de)activate the cursor depending on isBuildingExpansion
         cursor.SetActive(isBuildingExpansion);
     }
-    private void Building()
+    public void Building()
     {
-        if (!isBuildingExpansion) return;
-
         // set the position of this object to mousePos
         transform.position = mousePos;
 
-        // removing the time between this frame and last frame from cooldown
-        cooldown -= Time.unscaledDeltaTime;
+        resourceManager.SubtractResource(new Resource(ResourceType.Wood, cost));
+        StartCoroutine(PlaceExpansion(relativeMousePos));
 
-        // if the left mouse button is pressed and cooldown is less then or equals to 0
-        if (Input.GetMouseButton(0) && cooldown <= 0 && canBuildOnSelectedGridPosition)
+    }
+
+    public void ExpansionSelect(Vector3 position)
+    {
+        foreach (Vector3 emptyPosition in GetEmptyNeighbourPositions(relativeMousePos))
         {
+            Vector3 worldPosition = emptyPosition + kingdom.transform.position;
 
-            if (resourceManager.GetResource(ResourceType.Wood).amount < cost) return;
+            // Assuming your emptySpace prefab has a collider attached, 
+            // we use OverlapPoint or OverlapCircle to check for existing objects
+            Collider2D existingObject = Physics2D.OverlapCircle(worldPosition, 0.1f);
 
-            resourceManager.SubtractResource(new Resource(ResourceType.Wood, cost));
-
-            StartCoroutine(PlaceExpansion(kingdom.position + relativeMousePos));
+            // If no collider is found at this position, instantiate the empty space
+            if (existingObject == null)
+            {
+                Instantiate(emptySpace, worldPosition, Quaternion.identity, kingdom.GetChild(3));
+            }
         }
     }
-    IEnumerator PlaceExpansion(Vector3 position)
+    IEnumerator PlaceExpansion(Vector3Int position)
     {
         yield return null;
         // creating a new expansion at the position of the cursor
         // this also sticks the expansion to a grid using Mathf.RoundToInt()
-        Instantiate(expansion, position, Quaternion.identity, kingdom.transform.GetChild(3));
+        expansionTilemap.SetTile(position,expansion);
         // adds relative mouse position to list
         Expansion expansionData = new(relativeMousePos);
         AddNewUsableSpaces(expansionData);
-        // resetting the cooldown
-        cooldown = 0.2f;
     }
 
     private void AddNewUsableSpaces (Expansion current)
     {
         expansions.Add(current);
-    }
-
-    void CursorColorCheck()
-    {
-        if (canBuildOnSelectedGridPosition && cost <= resourceManager.GetResource(ResourceType.Wood).amount)
-        {
-            cursorSpriteRenderer.color = Color.green;
-        }
-        else
-        {
-            cursorSpriteRenderer.color = Color.red;
-        }
-    }
-    void CheckIfCanBuildOnGridPosition() {
-        Vector3 gridPosition = relativeMousePos;
-        bool expansionOnThisGridPosition = ExpansionsContains(gridPosition);
-        canBuildOnSelectedGridPosition = !expansionOnThisGridPosition && CheckForNeighbourExpansions(gridPosition);
-
-        cursor.SetActive(!expansionOnThisGridPosition);
-    }
-    void SnapCursorToGridPosition() {
-        cursor.transform.position = kingdom.position + relativeMousePos;
-        cursorSpriteRenderer.sprite = expansion.GetComponent<SpriteRenderer>().sprite;
-        cursor.transform.localScale = expansion.transform.localScale;
     }
 
     void CostCalculator()
@@ -167,7 +162,7 @@ public class ExpansionManager : MonoBehaviour
     
     void CalculateRelativeMousePos()
     {
-        relativeMousePos = new Vector3 (Mathf.RoundToInt(mousePos.x - kingdom.position.x),Mathf.RoundToInt(mousePos.y - kingdom.position.y),0);
+        relativeMousePos = new Vector3Int (Mathf.RoundToInt(mousePos.x - kingdom.position.x),Mathf.RoundToInt(mousePos.y - kingdom.position.y),0);
     }
 }
 
@@ -176,12 +171,7 @@ public class ExpansionManager : MonoBehaviour
 public class Expansion
 {
     public Vector3 position;
-
-    public Expansion() {
-
-    }
-
-    public Expansion (Vector3 position) {
+    public Expansion(Vector3 position) {
         this.position = position;
     }
 }

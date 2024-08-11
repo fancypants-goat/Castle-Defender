@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class ExpansionObject : MonoBehaviour
     public float zoomSpeed;
     public float zoomVelocity;
 
+    private ExpansionManager expansionManager;
+    private ResourceManager resourceManager;
     private Camera KingdomCamera;
 
     new private Renderer renderer;
@@ -15,6 +18,8 @@ public class ExpansionObject : MonoBehaviour
     {
         renderer = GetComponent<Renderer>();
         KingdomCamera = GameObject.Find("KingdomCamera").GetComponent<Camera>();
+        expansionManager = FindObjectOfType<ExpansionManager>();
+        resourceManager = FindObjectOfType<ResourceManager>();
     }
 
     void Update()
@@ -37,6 +42,13 @@ public class ExpansionObject : MonoBehaviour
         Camera.main.orthographicSize = KingdomCamera.orthographicSize + 2;
     }
 
+    void OnMouseDown() 
+    {
+        if (resourceManager.GetResource(ResourceType.Wood).amount < expansionManager.cost) return;
+        expansionManager.Building();
+        expansionManager.ExpansionSelect(transform.position);
+        Destroy(gameObject);
+    }
 
     bool IsExpansionPartiallyInView() {
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(KingdomCamera);
