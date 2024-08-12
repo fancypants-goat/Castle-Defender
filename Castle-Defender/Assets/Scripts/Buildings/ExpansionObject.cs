@@ -7,7 +7,7 @@ public class ExpansionObject : MonoBehaviour
 {
     public float zoomSpeed;
     public float zoomVelocity;
-
+    private GameObject kingdom;
     private ExpansionManager expansionManager;
     private ResourceManager resourceManager;
     private Camera KingdomCamera;
@@ -18,6 +18,7 @@ public class ExpansionObject : MonoBehaviour
     {
         renderer = GetComponent<Renderer>();
         KingdomCamera = GameObject.Find("KingdomCamera").GetComponent<Camera>();
+        kingdom = GameManager.Instance.kingdom;
         expansionManager = FindObjectOfType<ExpansionManager>();
         resourceManager = FindObjectOfType<ResourceManager>();
     }
@@ -45,8 +46,9 @@ public class ExpansionObject : MonoBehaviour
     void OnMouseDown() 
     {
         if (resourceManager.GetResource(ResourceType.Wood).amount < expansionManager.cost) return;
-        expansionManager.Building();
-        expansionManager.ExpansionSelect(transform.position);
+        Vector3Int position = Vector3Int.FloorToInt(transform.position-kingdom.transform.position);
+        expansionManager.Building(position);
+        expansionManager.ExpansionSelect(position);
         Destroy(gameObject);
     }
 

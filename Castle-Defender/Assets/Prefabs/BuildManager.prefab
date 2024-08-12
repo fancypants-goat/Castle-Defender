@@ -49,19 +49,23 @@ MonoBehaviour:
   resourceManager: {fileID: 0}
   cursor: {fileID: 0}
   cursorSpriteRenderer: {fileID: 0}
-  building: {fileID: 6834006752241240086, guid: 89a08406b059d1b4abc2a1a7462c4b86, type: 3}
+  buildingPrefabs:
+  - {fileID: 6834006752241240086, guid: 89a08406b059d1b4abc2a1a7462c4b86, type: 3}
+  - {fileID: 5511935358255804184, guid: 133b63a5f7e549b4b982786cc75fdffd, type: 3}
+  buildingButtons:
+  - {fileID: 0}
+  - {fileID: 0}
   kingdom: {fileID: 0}
   isBuildingBuilding: 0
   canBuildOnSelectedGridPosition: 0
   buildMode: {fileID: 5650328950247473104}
   StartPrice: 10
   costText: {fileID: 0}
-  expansionLayer:
-    serializedVersion: 2
-    m_Bits: 256
+  expansionTileMap: {fileID: 0}
   mousePos: {x: 0, y: 0, z: 0}
   relativeMousePos: {x: 0, y: 0, z: 0}
   closestPoint: {x: 0, y: 0, z: 0}
+  DropOffs: []
 --- !u!114 &5650328950247473104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,8 +79,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildUI: 0
+  walkMode: 0
   panel: {fileID: 0}
+  buildButton: {fileID: 0}
   cursor: {fileID: 0}
+  wholeKingdom: {fileID: 0}
+  kingdomParts: {fileID: 0}
 --- !u!114 &1961068557756097706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,14 +98,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceManager: {fileID: 0}
-  cursor: {fileID: 0}
-  cursorSpriteRenderer: {fileID: 0}
-  expansion: {fileID: 3262257011139298633, guid: c7dbd04e95a4a5443b36096c186c7034, type: 3}
+  emptySpace: {fileID: 3262257011139298633, guid: c7dbd04e95a4a5443b36096c186c7034, type: 3}
+  expansion: {fileID: 11400000, guid: 553a3c3dfa4e1164493b357bc0f49730, type: 2}
   kingdom: {fileID: 0}
-  isBuildingExpansion: 0
-  canBuildOnSelectedGridPosition: 0
-  buildMode: {fileID: 5650328950247473104}
+  expansionTilemap: {fileID: 0}
   StartPrice: 10
   costText: {fileID: 0}
-  mousePos: {x: 0, y: 0, z: 0}
-  relativeMousePos: {x: 0, y: 0, z: 0}
+  cost: 0

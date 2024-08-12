@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public GameObject kingdom;
     public int totalWorkers;
     public GameObject workerPanel;
     void Awake()

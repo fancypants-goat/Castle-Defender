@@ -14,9 +14,9 @@ public class BuildingManager : MonoBehaviour
 
     [SerializeField] private GameObject cursor;
     [SerializeField] private SpriteRenderer cursorSpriteRenderer;
-    [SerializeField] private List<GameObject> buildingPrefabs = new List<GameObject>();
+    [SerializeField] public List<GameObject> buildingPrefabs = new List<GameObject>();
     private GameObject currentBuilding;
-    [SerializeField] private List<Button> buildingButtons = new List<Button>();
+    [SerializeField] public List<Button> buildingButtons = new List<Button>();
     [SerializeField] private Transform kingdom;
     [Space]
 
@@ -63,7 +63,9 @@ public class BuildingManager : MonoBehaviour
 
     [SerializeField] private Vector3 mousePos, relativeMousePos, closestPoint;
     public List<GameObject> DropOffs = new List<GameObject>();
+    [Space]
 
+    public GameObject buildingButtonPrefab;
     void Start() 
     {
         // sets default building
@@ -144,6 +146,7 @@ public class BuildingManager : MonoBehaviour
         if (currentBuilding == buildingPrefabs[0])
         {
             DropOffs.Add(specific);
+            GameManager.Instance.totalWorkers += 1;
         }
     }
 

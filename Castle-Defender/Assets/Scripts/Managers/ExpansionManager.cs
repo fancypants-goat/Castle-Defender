@@ -11,16 +11,12 @@ public class ExpansionManager : MonoBehaviour
     public ResourceManager resourceManager;
     [Space]
 
-    [SerializeField] private GameObject cursor, emptySpace;
-    [SerializeField] private SpriteRenderer cursorSpriteRenderer;
+    [SerializeField] private GameObject emptySpace;
     [SerializeField] private RuleTile expansion;
     [SerializeField] private Transform kingdom;
     [SerializeField] private Tilemap expansionTilemap;
     [Space]
 
-    public bool isBuildingExpansion;
-    [SerializeField] private ModeManager buildMode;
-    [Space]
     [SerializeField] private int StartPrice;
     [SerializeField] private TMP_Text costText;
     public int cost;
@@ -46,12 +42,6 @@ public class ExpansionManager : MonoBehaviour
 
         return false;
     }
-    public bool CheckForNeighbourExpansions (Vector3 position) {
-        return ExpansionsContains(position + Vector3.up) ||
-            ExpansionsContains(position + Vector3.down) ||
-            ExpansionsContains(position + Vector3.right) ||
-            ExpansionsContains(position + Vector3.left);
-    }
 
     public List<Vector3> GetEmptyNeighbourPositions (Vector3 position)
     {
@@ -76,48 +66,25 @@ public class ExpansionManager : MonoBehaviour
 
     return neighborPositions;
     }
-    
-    private Vector3 mousePos;
-    [SerializeField] private Vector3Int relativeMousePos;
 
+    void Start() 
+    {
+        ExpansionSelect(kingdom.position);
+    }
     void Update() 
     { 
-        // get the mouseposition relative to the world
-        if (Input.mousePosition.x >= 0 && Input.mousePosition.x <= Screen.width 
-         && Input.mousePosition.y  >= 0 && Input.mousePosition.y <= Screen.height)
-        {
-            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = 0;
-        }
-        
-        CalculateRelativeMousePos();
-
-        if (!buildMode.buildUI)
-        {
-            isBuildingExpansion = false;
-        }
         CostCalculator();
     }
-    public void BuildExpanion()
+    
+    public void Building(Vector3Int position)
     {
-        // Switches Build Mode
-        isBuildingExpansion= !isBuildingExpansion;
-        // (de)activate the cursor depending on isBuildingExpansion
-        cursor.SetActive(isBuildingExpansion);
-    }
-    public void Building()
-    {
-        // set the position of this object to mousePos
-        transform.position = mousePos;
-
         resourceManager.SubtractResource(new Resource(ResourceType.Wood, cost));
-        StartCoroutine(PlaceExpansion(relativeMousePos));
-
+        StartCoroutine(PlaceExpansion(position));
     }
 
     public void ExpansionSelect(Vector3 position)
     {
-        foreach (Vector3 emptyPosition in GetEmptyNeighbourPositions(relativeMousePos))
+        foreach (Vector3 emptyPosition in GetEmptyNeighbourPositions(position))
         {
             Vector3 worldPosition = emptyPosition + kingdom.transform.position;
 
@@ -139,7 +106,7 @@ public class ExpansionManager : MonoBehaviour
         // this also sticks the expansion to a grid using Mathf.RoundToInt()
         expansionTilemap.SetTile(position,expansion);
         // adds relative mouse position to list
-        Expansion expansionData = new(relativeMousePos);
+        Expansion expansionData = new(position);
         AddNewUsableSpaces(expansionData);
     }
 
@@ -156,14 +123,9 @@ public class ExpansionManager : MonoBehaviour
             priceAddition = (expansions.Count-4) * StartPrice;
         }
         // Seperately calculates cost
-        cost = StartPrice + priceAddition; 
-        costText.text = cost.ToString();
+        cost = StartPrice + priceAddition;
     }
     
-    void CalculateRelativeMousePos()
-    {
-        relativeMousePos = new Vector3Int (Mathf.RoundToInt(mousePos.x - kingdom.position.x),Mathf.RoundToInt(mousePos.y - kingdom.position.y),0);
-    }
 }
 
 
