@@ -11,6 +11,7 @@ public class ModeManager : MonoBehaviour
     {
         buildUI = !buildUI;
         panel.SetActive(buildUI);
+        expansionSilhouettes.SetActive(!buildUI);
         Time.timeScale = buildUI ? 0 : 1;
     }
     public void Walk()

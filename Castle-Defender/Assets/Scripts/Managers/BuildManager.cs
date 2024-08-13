@@ -12,10 +12,11 @@ public class BuildingManager : MonoBehaviour
     public ResourceManager resourceManager;
     [Space]
 
-    [SerializeField] private GameObject cursor;
+    [SerializeField] public GameObject cursor;
     [SerializeField] private SpriteRenderer cursorSpriteRenderer;
     [SerializeField] public List<GameObject> buildingPrefabs = new List<GameObject>();
     private GameObject currentBuilding;
+    private IBuilding buildingScript;
     [SerializeField] public List<Button> buildingButtons = new List<Button>();
     [SerializeField] private Transform kingdom;
     [Space]
@@ -54,13 +55,34 @@ public class BuildingManager : MonoBehaviour
 
         return false;
     }
-    
-    private bool IsOnExpansion(Vector3 position)
+    public bool IsOnExpansion(Vector3 position)
     {
         Vector3Int cellPosition = expansionTileMap.WorldToCell(position);
         return expansionTileMap.HasTile(cellPosition);
     }
+    public bool CheckNextToAnyExpansion(Vector3 position)
+    {
 
+        return IsOnExpansion(position + Vector3.up/2)
+            || IsOnExpansion(position + Vector3.down/2)
+            || IsOnExpansion(position + Vector3.right/2)
+            || IsOnExpansion(position + Vector3.left/2);
+    }
+    public bool CheckNextToSelectiveExpansion(Vector3 position, Vector3[] selectedPositions)
+    {
+        foreach (var current in selectedPositions)
+        {
+            if (IsOnExpansion(position + current/2))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     [SerializeField] private Vector3 mousePos, relativeMousePos, closestPoint;
     public List<GameObject> DropOffs = new List<GameObject>();
     [Space]
@@ -90,8 +112,6 @@ public class BuildingManager : MonoBehaviour
             closestPoint = FindClosestBuilding(mousePos - kingdom.position);
 
             CalculateRelativeMousePos();
-
-            CheckIfCanBuildOnGridPosition();
             CursorColorCheck();
 
             SnapCursorToGridPosition();
@@ -109,6 +129,25 @@ public class BuildingManager : MonoBehaviour
         }
         CostCalculator();
     }
+    public void SelectBuilding(int index)
+    {
+        if (currentBuilding == buildingPrefabs[index] && isBuildingBuilding)
+        {
+            isBuildingBuilding = false;
+        }
+        else
+        {
+            isBuildingBuilding = true;
+        }
+        // (de)activate the cursor depending on isBuildingBuilding
+        cursor.SetActive(isBuildingBuilding);
+
+        // sets building and cursor
+        currentBuilding = buildingPrefabs[index];
+        buildingScript = currentBuilding.GetComponent<IBuilding>();
+        cursorSpriteRenderer.sprite = currentBuilding.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
+        cursor.transform.localScale = currentBuilding.transform.localScale;
+    }
     private void Building()
     {
         if (!isBuildingBuilding) return;
@@ -120,12 +159,13 @@ public class BuildingManager : MonoBehaviour
         cooldown -= Time.unscaledDeltaTime;
 
         // if the left mouse button is pressed and cooldown is less then or equals to 0
-        if (Input.GetMouseButton(0) && cooldown <= 0 && canBuildOnSelectedGridPosition)
+        if (Input.GetMouseButton(0) && cooldown <= 0 && buildingScript.CanPlaceBuilding(relativeMousePos + closestPoint, this, cursor))
         {
 
             if (resourceManager.GetResource(ResourceType.Wood).amount < cost) return;
 
             resourceManager.SubtractResource(new Resource(ResourceType.Wood, cost));
+            cooldown = 0.2f;
 
             StartCoroutine(PlaceBuilding(kingdom.position + closestPoint + relativeMousePos));
         }
@@ -135,16 +175,15 @@ public class BuildingManager : MonoBehaviour
         yield return null;
         // creating a new Building at the position of the cursor
         // this also sticks the Building to a grid using Mathf.RoundToInt()
-        GameObject specific = Instantiate(currentBuilding, position, Quaternion.identity, kingdom.transform.GetChild(2));
+        GameObject specificBuilding = Instantiate(currentBuilding, position, Quaternion.identity, kingdom.transform.GetChild(2));
         // adds relative mouse position to list
         Building BuildingData = new(relativeMousePos + closestPoint);
         AddNewUsableSpaces(BuildingData);
         // resetting the cooldown
-        cooldown = 0.2f;
         // add to dropoff list
         if (currentBuilding == buildingPrefabs[0])
         {
-            DropOffs.Add(specific);
+            DropOffs.Add(specificBuilding);
             GameManager.Instance.totalWorkers += 1;
         }
     }
@@ -156,7 +195,7 @@ public class BuildingManager : MonoBehaviour
 
     void CursorColorCheck()
     {
-        if (canBuildOnSelectedGridPosition && cost <= resourceManager.GetResource(ResourceType.Wood).amount)
+        if (buildingScript.CanPlaceBuilding(relativeMousePos + closestPoint, this, cursor) && cost <= resourceManager.GetResource(ResourceType.Wood).amount)
         {
             cursorSpriteRenderer.color = Color.green;
         }
@@ -164,13 +203,6 @@ public class BuildingManager : MonoBehaviour
         {
             cursorSpriteRenderer.color = Color.red;
         }
-    }
-    void CheckIfCanBuildOnGridPosition() {
-        Vector3 gridPosition = relativeMousePos + closestPoint;
-        bool BuildingOnThisGridPosition = BuildingsContains(gridPosition);
-        canBuildOnSelectedGridPosition = !BuildingOnThisGridPosition && IsOnExpansion(cursor.transform.position);
-
-        cursor.SetActive(!BuildingOnThisGridPosition);
     }
     void SnapCursorToGridPosition() {
         cursor.transform.position = kingdom.position + relativeMousePos + closestPoint;
@@ -244,24 +276,11 @@ public class BuildingManager : MonoBehaviour
 
     }
 
-    public void SelectBuilding(int index)
-    {
-        if (currentBuilding == buildingPrefabs[index] && isBuildingBuilding)
-        {
-            isBuildingBuilding = false;
-        }
-        else
-        {
-            isBuildingBuilding = true;
-        }
-        // (de)activate the cursor depending on isBuildingBuilding
-        cursor.SetActive(isBuildingBuilding);
+}
 
-        // sets building and cursor
-        currentBuilding = buildingPrefabs[index];
-        cursorSpriteRenderer.sprite = currentBuilding.GetComponent<SpriteRenderer>().sprite;
-        cursor.transform.localScale = currentBuilding.transform.localScale;
-    }
+public interface IBuilding
+{
+    bool CanPlaceBuilding(Vector3 gridPosition, BuildingManager buildingManager, GameObject cursor);
 }
 
 

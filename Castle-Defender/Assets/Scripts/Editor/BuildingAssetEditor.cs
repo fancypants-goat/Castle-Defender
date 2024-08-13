@@ -44,7 +44,7 @@ public class BuildingAssetEditor : EditorWindow {
 
             // Instaniate button and modify it
             GameObject button = Instantiate(buildingUIButton,buildMenu.transform);
-            button.transform.GetChild(1).GetComponent<Image>().sprite = buildingPrefab.GetComponent<SpriteRenderer>().sprite;
+            button.transform.GetChild(1).GetComponent<Image>().sprite = buildingPrefab.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
 
             // Add button to list
             buildingManager.buildingButtons.Add(button.GetComponent<Button>());
