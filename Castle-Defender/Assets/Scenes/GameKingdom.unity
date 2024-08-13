@@ -304,6 +304,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &582116579 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5243281440004992059, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+  m_PrefabInstance: {fileID: 1874521149464112898}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &636697790 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7966312942228388230, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
@@ -334,11 +339,6 @@ GameObject:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1968820910484939288, guid: 5c4a26d75184e3b43b031d5877f4b4b1, type: 3}
   m_PrefabInstance: {fileID: 1551914345583966380}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1101217691 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 932274250278088658, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-  m_PrefabInstance: {fileID: 1874521149464112898}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1101259851
 GameObject:
@@ -655,7 +655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3128098580381961054, guid: 5c4a26d75184e3b43b031d5877f4b4b1, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3811757352153244772, guid: 5c4a26d75184e3b43b031d5877f4b4b1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -863,11 +863,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 996350651}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 6569011094435924400, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-    - {fileID: 1077451446224588010, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-    - {fileID: 6665712708100114960, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-    - {fileID: 3184955955129667580, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
@@ -909,6 +905,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 32599716}
     - target: {fileID: 5650328950247473104, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
+      propertyPath: buildUI
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5650328950247473104, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
+      propertyPath: walkMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5650328950247473104, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
       propertyPath: buildButton
       value: 
       objectReference: {fileID: 1618743986}
@@ -919,7 +923,11 @@ PrefabInstance:
     - target: {fileID: 5650328950247473104, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
       propertyPath: wholeKingdom
       value: 
-      objectReference: {fileID: 1101217691}
+      objectReference: {fileID: 0}
+    - target: {fileID: 5650328950247473104, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
+      propertyPath: expansionSilhouettes
+      value: 
+      objectReference: {fileID: 582116579}
     - target: {fileID: 7487727542431286428, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -989,6 +997,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 32599717}
     - target: {fileID: 7670975357208052764, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
+      propertyPath: buildingButtons.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670975357208052764, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
+      propertyPath: buildingPrefabs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670975357208052764, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
       propertyPath: buildingButtons.Array.data[0]
       value: 
       objectReference: {fileID: 1301068547}
@@ -996,6 +1012,14 @@ PrefabInstance:
       propertyPath: buildingButtons.Array.data[1]
       value: 
       objectReference: {fileID: 574541146}
+    - target: {fileID: 7670975357208052764, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
+      propertyPath: buildingButtons.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670975357208052764, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
+      propertyPath: buildingPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 8496542414728168963, guid: ec1af330e54e9874abdd40221e03e1ac, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

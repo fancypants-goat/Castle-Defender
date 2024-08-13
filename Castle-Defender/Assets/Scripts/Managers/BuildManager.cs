@@ -68,12 +68,6 @@ public class BuildingManager : MonoBehaviour
     public GameObject buildingButtonPrefab;
     void Start() 
     {
-        // sets default building
-        if (buildingPrefabs != null && buildingPrefabs.Count > 0)
-        {
-            currentBuilding = buildingPrefabs[0];
-        }
-
         // sets each button to its building
         for (int i = 0; i < buildingButtons.Count; i++)
         {
@@ -104,6 +98,11 @@ public class BuildingManager : MonoBehaviour
             // Building Function
             Building();
         }
+        else
+        {
+            cursor.SetActive(false);
+        }
+            
         if (!buildMode.buildUI)
         {
             isBuildingBuilding = false;
@@ -136,7 +135,7 @@ public class BuildingManager : MonoBehaviour
         yield return null;
         // creating a new Building at the position of the cursor
         // this also sticks the Building to a grid using Mathf.RoundToInt()
-        GameObject specific = Instantiate(currentBuilding, position, Quaternion.identity, kingdom.transform.GetChild(3));
+        GameObject specific = Instantiate(currentBuilding, position, Quaternion.identity, kingdom.transform.GetChild(2));
         // adds relative mouse position to list
         Building BuildingData = new(relativeMousePos + closestPoint);
         AddNewUsableSpaces(BuildingData);
@@ -247,7 +246,14 @@ public class BuildingManager : MonoBehaviour
 
     public void SelectBuilding(int index)
     {
-        isBuildingBuilding = true;
+        if (currentBuilding == buildingPrefabs[index] && isBuildingBuilding)
+        {
+            isBuildingBuilding = false;
+        }
+        else
+        {
+            isBuildingBuilding = true;
+        }
         // (de)activate the cursor depending on isBuildingBuilding
         cursor.SetActive(isBuildingBuilding);
 

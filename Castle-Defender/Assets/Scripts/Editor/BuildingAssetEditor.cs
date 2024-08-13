@@ -39,8 +39,14 @@ public class BuildingAssetEditor : EditorWindow {
         {
             Undo.RecordObject(buildingManager, "Add Building");
 
+            // Add prefab to list
             buildingManager.buildingPrefabs.Add(buildingPrefab);
+
+            // Instaniate button and modify it
             GameObject button = Instantiate(buildingUIButton,buildMenu.transform);
+            button.transform.GetChild(1).GetComponent<Image>().sprite = buildingPrefab.GetComponent<SpriteRenderer>().sprite;
+
+            // Add button to list
             buildingManager.buildingButtons.Add(button.GetComponent<Button>());
 
             EditorUtility.SetDirty(buildingManager);
