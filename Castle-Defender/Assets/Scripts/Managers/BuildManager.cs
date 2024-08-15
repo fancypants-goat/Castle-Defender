@@ -12,6 +12,7 @@ public class BuildingManager : MonoBehaviour
     public ResourceManager resourceManager;
     [Space]
 
+    [Header("Building Selection")]
     [SerializeField] public GameObject cursor;
     [SerializeField] private SpriteRenderer cursorSpriteRenderer;
     [SerializeField] public List<GameObject> buildingPrefabs = new List<GameObject>();
@@ -21,10 +22,13 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private Transform kingdom;
     [Space]
 
+    [Header("Building Placement")]
     public bool isBuildingBuilding;
     [SerializeField] private bool canBuildOnSelectedGridPosition;
     [SerializeField] private ModeManager buildMode;
     [Space]
+
+    [Header("Cost Calculation")]
     [SerializeField] private int StartPrice;
     [SerializeField] private TMP_Text costText;
     private int cost;
@@ -83,10 +87,10 @@ public class BuildingManager : MonoBehaviour
         }
         return true;
     }
-    [SerializeField] private Vector3 mousePos, relativeMousePos, closestPoint;
-    public List<GameObject> DropOffs = new List<GameObject>();
-    [Space]
+    private Vector3 mousePos, relativeMousePos, closestPoint;
 
+    [Header("Extras")]
+    public List<GameObject> DropOffs = new List<GameObject>();
     public GameObject buildingButtonPrefab;
     void Start() 
     {

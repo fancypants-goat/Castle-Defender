@@ -6,7 +6,7 @@ using UnityEngine;
 public class ExpansionObject : MonoBehaviour
 {
     public float zoomSpeed;
-    public float zoomVelocity;
+    private float zoomVelocity;
     private GameObject kingdom;
     private ExpansionManager expansionManager;
     private ResourceManager resourceManager;
@@ -25,22 +25,25 @@ public class ExpansionObject : MonoBehaviour
 
     void Update()
     {
-        if (!IsObjectFullyInView()) {
+        if (IsObjectFullyOutOfView()) {
             zoomVelocity += 0.0008f;
         }
         else {
             zoomVelocity -= 0.0002f;
         }
 
-        if (zoomVelocity < 0) {
-            zoomVelocity = 0;
-        }
-        if (zoomVelocity > 0.05f) {
-            zoomVelocity = 0.05f;
-        }
+        // if (zoomVelocity < 0) {
+        //     zoomVelocity = 0;
+        // }
+        // if (zoomVelocity > 0.05f) {
+        //     zoomVelocity = 0.05f;
+        // }
+
+        // this does the same
+        zoomVelocity = Mathf.Clamp(zoomVelocity, 0, zoomSpeed);
 
         KingdomCamera.orthographicSize += zoomVelocity;
-        Camera.main.orthographicSize = KingdomCamera.orthographicSize + 2;
+        // Camera.main.orthographicSize = KingdomCamera.orthographicSize + 0.5f;
     }
 
     void OnMouseDown() 
@@ -58,7 +61,7 @@ public class ExpansionObject : MonoBehaviour
 
         return GeometryUtility.TestPlanesAABB(planes, bounds);
     }
-    bool IsObjectFullyInView()
+    bool IsObjectFullyOutOfView()
     {
         if (renderer == null || KingdomCamera == null)
         {
@@ -80,7 +83,7 @@ public class ExpansionObject : MonoBehaviour
         foreach (var corner in corners)
         {
             Vector3 viewportPoint = KingdomCamera.WorldToViewportPoint(corner);
-            if (viewportPoint.x < 0 || viewportPoint.x > 1 || viewportPoint.y < 0 || viewportPoint.y > 1 || viewportPoint.z < 0)
+            if (viewportPoint.x > 0 && viewportPoint.x < 1 && viewportPoint.y > 0 && viewportPoint.y < 1 && viewportPoint.z > 0)
             {
                 return false;
             }

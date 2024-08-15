@@ -6,7 +6,9 @@ public class ModeManager : MonoBehaviour
 {
     public bool buildUI;
     public bool walkMode;
+
     [SerializeField] private GameObject panel, buildButton,expansionSilhouettes;
+    [SerializeField] private Camera kingdomCamera;
     public void Build()
     {
         buildUI = !buildUI;
@@ -22,7 +24,13 @@ public class ModeManager : MonoBehaviour
         buildButton.SetActive(!walkMode);
         expansionSilhouettes.SetActive(!walkMode);
         // Sets Camera to show outer sprite
-        Vector3 offset = walkMode ? new Vector3(0,0,-1) : new Vector3(0,0,1);
-        Camera.main.transform.position += offset;
+    }
+
+    void Update()
+    {
+        if (walkMode)
+        {
+            Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,kingdomCamera.orthographicSize+2,Time.deltaTime * 5);
+        }
     }
 }
