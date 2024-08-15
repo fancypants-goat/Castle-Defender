@@ -427,25 +427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1319773833 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2375302569804014059, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-  m_PrefabInstance: {fileID: 1874521149464112898}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1319773837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1319773833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e785c47d3769444fa35820fa2fd4a96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  zoomSpeed: 1
-  kingdomCamera: {fileID: 1487222267}
 --- !u!114 &1373975879 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5650328950247473104, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
@@ -890,9 +871,9 @@ PrefabInstance:
       propertyPath: buildMode
       value: 
       objectReference: {fileID: 1373975879}
-    - target: {fileID: 7512697671465241200, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-      propertyPath: orthographic size
-      value: 3
+    - target: {fileID: 8741284157082272667, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: m_Depth
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9074198366150649552, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: ResourcesPanel
@@ -901,10 +882,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2375302569804014059, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1319773837}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
 --- !u!4 &3476789063299649086 stripped
 Transform:
