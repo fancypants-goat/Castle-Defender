@@ -823,6 +823,14 @@ PrefabInstance:
       propertyPath: workerMenuContent
       value: 
       objectReference: {fileID: 1550857243}
+    - target: {fileID: 2982467692833773669, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2982467692833773669, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
+      propertyPath: m_TagString
+      value: Kingdom
+      objectReference: {fileID: 0}
     - target: {fileID: 3476789061596666132, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -871,10 +879,6 @@ PrefabInstance:
       propertyPath: buildMode
       value: 
       objectReference: {fileID: 1373975879}
-    - target: {fileID: 8741284157082272667, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
-      propertyPath: m_Depth
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9074198366150649552, guid: 30aff373d386ce34db2bde24a64dab6d, type: 3}
       propertyPath: ResourcesPanel
       value: 
@@ -901,6 +905,10 @@ PrefabInstance:
       propertyPath: kingdom
       value: 
       objectReference: {fileID: 3476789063299649086}
+    - target: {fileID: 1961068557756097706, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
+      propertyPath: expansion
+      value: 
+      objectReference: {fileID: 11400000, guid: 367c3208ee5761a4896ad20fac7c74bc, type: 2}
     - target: {fileID: 1961068557756097706, guid: f217ff9286a76364ea55b7ef59acbb41, type: 3}
       propertyPath: resourceManager
       value: 

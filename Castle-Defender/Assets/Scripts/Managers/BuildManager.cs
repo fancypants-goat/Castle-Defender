@@ -181,7 +181,7 @@ public class BuildingManager : MonoBehaviour
         // this also sticks the Building to a grid using Mathf.RoundToInt()
         GameObject specificBuilding = Instantiate(currentBuilding, position, Quaternion.identity, kingdom.transform.GetChild(2));
         // adds relative mouse position to list
-        Building BuildingData = new(relativeMousePos + closestPoint);
+        Building BuildingData = new(relativeMousePos + closestPoint, specificBuilding);
         AddNewUsableSpaces(BuildingData);
         // resetting the cooldown
         // add to dropoff list
@@ -292,9 +292,10 @@ public interface IBuilding
 public class Building
 {
     public Vector3 position;
-
-    public Building() {
-
+    public GameObject buildingObject;
+    public Building(Vector3 position, GameObject building) {
+        this.position = position;
+        buildingObject = building;
     }
 
     public Building (Vector3 position) {

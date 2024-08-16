@@ -6,8 +6,12 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     private ResourceManager resourceManager;
+    private BuildingManager buildingManager;
 
+    [Header("State Machine")]
+    public EnemyState currentState;
 
+    [Header("Stats")]
     public float speed;
     public float health;
 
@@ -15,69 +19,96 @@ public class Monster : MonoBehaviour
 
     [SerializeField] private float attackRadius;
 
-    private GameObject Target;
+    private GameObject enemyTarget;
 
     public Resource[] drops;
 
+    void GetTarget()
+    {
+        foreach (Building building in buildingManager.Buildings)
+        {
+            if (building.buildingObject != null 
+            && Vector3.Distance(building.buildingObject.transform.position,transform.position) 
+            < Vector3.Distance(enemyTarget.transform.position,transform.position))
+            {
+                enemyTarget = building.buildingObject;
+            }
+        }
+    }
 
     private void Start() 
     {
-        Target = GameObject.FindGameObjectWithTag("Kingdom");
+        enemyTarget = GameObject.Find("MainBuilding");
         resourceManager = FindObjectOfType<ResourceManager>();
+        buildingManager = FindObjectOfType<BuildingManager>();
     }
-
-    
-    private void MoveMonsterTowardsPosition (Vector3 target) {
-        // calculate the distance between self and the target
-        Vector3 delta = target - transform.position;
-        // normalize delta
-        delta.Normalize();
-
-        // move object towards the target
-        // speed * deltatime determines the amount that should be moved
-        // * delta determines the direction this object should be moved in
-        transform.Translate(speed * Time.deltaTime * delta);
-    }
-    void OnDrawGizmos()
-    {
-        // shows the distance in which a monster attacks
-
-        // set the color to red
-        Gizmos.color = Color.red;
-        // draw a wired sphere for the attackRadius
-        Gizmos.DrawWireSphere(transform.position, attackRadius);
-    }
-    public void KillMonster () {
-        // destroy this gameObject
-        Destroy(gameObject);
-
-        // drop the items
-        DropItems();
-    }
-    public void DropItems() {
-        foreach (Resource drop in drops) {
-            resourceManager.AddResource(drop);
-        }
-    }
-
-    // TEMPORARY
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        // check if the collided object contains an instance of class "Monster"
-        // this just checks if the collided object is also a monster
-        if (other.gameObject.TryGetComponent<Monster>(out _)) {
-            // kill this monster
-            KillMonster();
-        }
-    }
-
 
     void Update()
     {
-        // move the monster if within attack radius 
-        if (Vector2.Distance(transform.position, Target.transform.position) < attackRadius)
+        SelectState();
+        UpdateState();
+
+        GetTarget();
+    }
+    
+    void SelectState()
+    {
+        if (health <= 0)
         {
-            MoveMonsterTowardsPosition(Target.transform.position);
+            currentState = EnemyState.Death;
+            return;
+        }
+        if (Vector2.Distance(enemyTarget.transform.position,transform.position) < 1)
+        {
+            currentState = EnemyState.Attacking;
+            return;
+        }
+        currentState = EnemyState.Idle;
+    }
+
+    void UpdateState()
+    {
+        switch (currentState)
+        {
+            case EnemyState.Idle:
+                StartIdle(enemyTarget.transform.position);
+                break;
+            case EnemyState.Attacking:
+                StartAttacking();
+                break;
+            case EnemyState.Death:
+                StartDeath();
+                break;
         }
     }
+    private void StartIdle (Vector3 target) 
+    {
+        Vector3 delta = target - transform.position;
+
+        delta.Normalize();
+
+        transform.Translate(speed * Time.deltaTime * delta);
+    }
+
+    private void StartAttacking()
+    {
+
+    }
+    private void StartDeath()
+    {
+        foreach (Resource drop in drops) 
+        {
+            resourceManager.AddResource(drop);
+        }
+        
+        Destroy(gameObject);
+    }
+
+
 }
+    public enum EnemyState
+    {
+        Idle,
+        Attacking,
+        Death
+    }

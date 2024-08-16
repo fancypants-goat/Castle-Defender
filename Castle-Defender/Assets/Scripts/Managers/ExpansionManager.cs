@@ -12,7 +12,7 @@ public class ExpansionManager : MonoBehaviour
     [Space]
 
     [SerializeField] private GameObject emptySpace;
-    [SerializeField] private RuleTile expansion;
+    [SerializeField] private Tile expansion;
     [SerializeField] private Transform kingdom;
     [SerializeField] private Tilemap expansionTilemap;
     [Space]

@@ -31,19 +31,9 @@ public class ExpansionObject : MonoBehaviour
         else {
             zoomVelocity -= 0.0002f;
         }
-
-        // if (zoomVelocity < 0) {
-        //     zoomVelocity = 0;
-        // }
-        // if (zoomVelocity > 0.05f) {
-        //     zoomVelocity = 0.05f;
-        // }
-
-        // this does the same
         zoomVelocity = Mathf.Clamp(zoomVelocity, 0, zoomSpeed);
 
         KingdomCamera.orthographicSize += zoomVelocity;
-        // Camera.main.orthographicSize = KingdomCamera.orthographicSize + 0.5f;
     }
 
     void OnMouseDown() 
@@ -52,14 +42,8 @@ public class ExpansionObject : MonoBehaviour
         Vector3Int position = Vector3Int.FloorToInt(transform.position-kingdom.transform.position);
         expansionManager.Building(position);
         expansionManager.ExpansionSelect(position);
+
         Destroy(gameObject);
-    }
-
-    bool IsExpansionPartiallyInView() {
-        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(KingdomCamera);
-        Bounds bounds = renderer.bounds;
-
-        return GeometryUtility.TestPlanesAABB(planes, bounds);
     }
     bool IsObjectFullyOutOfView()
     {
