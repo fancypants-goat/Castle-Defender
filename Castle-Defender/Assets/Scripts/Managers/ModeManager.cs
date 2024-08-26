@@ -30,7 +30,7 @@ public class ModeManager : MonoBehaviour
     {
         if (walkMode)
         {
-            Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,kingdomCamera.orthographicSize+2,Time.deltaTime * 5);
+            Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,kingdomCamera.orthographicSize+1,Time.deltaTime * 5);
         }
     }
 }

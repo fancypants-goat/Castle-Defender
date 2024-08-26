@@ -18,13 +18,11 @@ public class Worker : MonoBehaviour
     public float speed;
     private float minimumDistance = 0.7f;
     public bool reachedTarget ,shouldMove ,working, carrying;
-    private WorkerManager workerManager;
     private BuildingManager buildingManager;
     void Start()
     {
-        kingdom = GameObject.FindGameObjectWithTag("Kingdom");
+        kingdom = GameManager.Instance.kingdom;
         buildingManager = FindObjectOfType<BuildingManager>();
-        workerManager = kingdom.GetComponent<WorkerManager>();
         resourceManager = kingdom.GetComponent<ResourceManager>();
     }
 

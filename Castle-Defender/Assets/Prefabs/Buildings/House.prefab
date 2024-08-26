@@ -178,7 +178,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1905628303573528689}
   - component: {fileID: -6725891359293622267}
-  - component: {fileID: 6853812718650485485}
   m_Layer: 6
   m_Name: House
   m_TagString: Kingdom
@@ -216,19 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e97259dddb1ac94083dc544e46b9d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6853812718650485485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5511935358255804184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 788021ba0f30f5e4e8190368e0a2cb1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buildingHealth: 5
+  buildingHealth: 10
 --- !u!1 &6467742055444733337
 GameObject:
   m_ObjectHideFlags: 0

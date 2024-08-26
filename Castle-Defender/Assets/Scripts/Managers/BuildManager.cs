@@ -284,6 +284,7 @@ public class BuildingManager : MonoBehaviour
 
 public interface IBuilding
 {
+    int BuildingHealth { get; set; }
     bool CanPlaceBuilding(Vector3 gridPosition, BuildingManager buildingManager, GameObject cursor);
 }
 

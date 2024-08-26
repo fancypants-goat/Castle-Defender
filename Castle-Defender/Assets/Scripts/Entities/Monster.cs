@@ -14,27 +14,12 @@ public class Monster : MonoBehaviour
     [Header("Stats")]
     public float speed;
     public float health;
-
-    public int difficulty = 0;
-
-    [SerializeField] private float attackRadius;
+    private float attackCooldown;
 
     private GameObject enemyTarget;
 
     public Resource[] drops;
 
-    void GetTarget()
-    {
-        foreach (Building building in buildingManager.Buildings)
-        {
-            if (building.buildingObject != null 
-            && Vector3.Distance(building.buildingObject.transform.position,transform.position) 
-            < Vector3.Distance(enemyTarget.transform.position,transform.position))
-            {
-                enemyTarget = building.buildingObject;
-            }
-        }
-    }
 
     private void Start() 
     {
@@ -48,7 +33,9 @@ public class Monster : MonoBehaviour
         SelectState();
         UpdateState();
 
-        GetTarget();
+        enemyTarget = GetTarget();
+
+        attackCooldown -= Time.deltaTime;
     }
     
     void SelectState()
@@ -63,15 +50,15 @@ public class Monster : MonoBehaviour
             currentState = EnemyState.Attacking;
             return;
         }
-        currentState = EnemyState.Idle;
+        currentState = EnemyState.Walking;
     }
 
     void UpdateState()
     {
         switch (currentState)
         {
-            case EnemyState.Idle:
-                StartIdle(enemyTarget.transform.position);
+            case EnemyState.Walking:
+                StartWalking(enemyTarget.transform.position);
                 break;
             case EnemyState.Attacking:
                 StartAttacking();
@@ -81,18 +68,28 @@ public class Monster : MonoBehaviour
                 break;
         }
     }
-    private void StartIdle (Vector3 target) 
+    private void StartWalking (Vector3 target) 
     {
         Vector3 delta = target - transform.position;
 
         delta.Normalize();
 
         transform.Translate(speed * Time.deltaTime * delta);
+
     }
 
     private void StartAttacking()
     {
-
+        if (attackCooldown <= 0)
+        {
+            enemyTarget.GetComponent<IBuilding>().BuildingHealth -= 1;
+            attackCooldown = 1;
+        }
+        if (enemyTarget.GetComponent<IBuilding>().BuildingHealth < 0)
+        {
+            Destroy(enemyTarget);
+            currentState = EnemyState.Walking;
+        }
     }
     private void StartDeath()
     {
@@ -103,12 +100,26 @@ public class Monster : MonoBehaviour
         
         Destroy(gameObject);
     }
+    GameObject GetTarget()
+    {
+        GameObject target = null;
+        foreach (Building building in buildingManager.Buildings)
+        {
+            if (building.buildingObject != null 
+            && Vector3.Distance(building.buildingObject.transform.position,transform.position) 
+            < Vector3.Distance(enemyTarget.transform.position,transform.position))
+            {
+                target = building.buildingObject;
+            }
+        }
+        return target;
+    }
 
 
 }
     public enum EnemyState
     {
-        Idle,
+        Walking,
         Attacking,
         Death
     }

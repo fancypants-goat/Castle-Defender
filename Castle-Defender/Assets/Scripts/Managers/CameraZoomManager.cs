@@ -22,8 +22,7 @@ public class CameraZoomManager : MonoBehaviour
         mainCamera.orthographicSize -= scrollData * zoomSpeed;
 
         // Clamp the orthographic size to stay within min and max bounds
-        mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize, kingdomCamera.orthographicSize - 2, kingdomCamera.orthographicSize + 2);
-
+        mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize, kingdomCamera.orthographicSize - 2, kingdomCamera.orthographicSize + 1);
         // Handle panning
         HandlePan();
 
@@ -34,7 +33,7 @@ public class CameraZoomManager : MonoBehaviour
     void HandlePan()
     {
         // Only allow panning if the camera is zoomed in
-        if (mainCamera.orthographicSize < kingdomCamera.orthographicSize + 2)
+        if (mainCamera.orthographicSize < kingdomCamera.orthographicSize + 1)
         {
             // When the right mouse button is pressed down
             if (Input.GetMouseButtonDown(1))
@@ -55,7 +54,7 @@ public class CameraZoomManager : MonoBehaviour
         // Calculate the screen bounds of the kingdom camera plus margin
         float cameraHeight = mainCamera.orthographicSize * 2;
         float cameraWidth = cameraHeight * mainCamera.aspect;
-        float kingdomCameraHeight = (kingdomCamera.orthographicSize + 2) * 2;
+        float kingdomCameraHeight = (kingdomCamera.orthographicSize + 1) * 2;
         float kingdomCameraWidth = kingdomCameraHeight * kingdomCamera.aspect;
         
         float marginHeight = kingdomCameraHeight;

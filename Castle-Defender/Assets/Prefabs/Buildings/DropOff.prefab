@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6407088968977157902}
   - component: {fileID: 7126756745688059260}
-  - component: {fileID: 660627333372626686}
   m_Layer: 6
   m_Name: DropOff
   m_TagString: Kingdom
@@ -45,18 +44,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 036096054d6c3ec48947c2b7199a00bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &660627333372626686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6834006752241240086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 788021ba0f30f5e4e8190368e0a2cb1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   buildingHealth: 5
