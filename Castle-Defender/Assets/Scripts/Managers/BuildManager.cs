@@ -66,21 +66,23 @@ public class BuildingManager : MonoBehaviour
     }
     public bool CheckNextToAnyExpansion(Vector3 position)
     {
-
         return IsOnExpansion(position + Vector3.up/2)
             || IsOnExpansion(position + Vector3.down/2)
             || IsOnExpansion(position + Vector3.right/2)
             || IsOnExpansion(position + Vector3.left/2);
     }
+    public bool CheckSurroundedbyExpansion(Vector3 position)
+    {
+        return IsOnExpansion(position + Vector3.up/2)
+            && IsOnExpansion(position + Vector3.down/2)
+            && IsOnExpansion(position + Vector3.right/2)
+            && IsOnExpansion(position + Vector3.left/2);
+    }
     public bool CheckNextToSelectiveExpansion(Vector3 position, Vector3[] selectedPositions)
     {
         foreach (var current in selectedPositions)
         {
-            if (IsOnExpansion(position + current/2))
-            {
-                continue;
-            }
-            else
+            if (!IsOnExpansion(position + current/2))
             {
                 return false;
             }
@@ -171,14 +173,11 @@ public class BuildingManager : MonoBehaviour
             resourceManager.SubtractResource(new Resource(ResourceType.Wood, cost));
             cooldown = 0.2f;
 
-            StartCoroutine(PlaceBuilding(kingdom.position + closestPoint + relativeMousePos));
+            PlaceBuilding(kingdom.position + closestPoint + relativeMousePos);
         }
     }
-    IEnumerator PlaceBuilding(Vector3 position)
+    void PlaceBuilding(Vector3 position)
     {
-        yield return null;
-        // creating a new Building at the position of the cursor
-        // this also sticks the Building to a grid using Mathf.RoundToInt()
         GameObject specificBuilding = Instantiate(currentBuilding, position, Quaternion.identity, kingdom.transform.GetChild(2));
         // adds relative mouse position to list
         Building BuildingData = new(relativeMousePos + closestPoint, specificBuilding);

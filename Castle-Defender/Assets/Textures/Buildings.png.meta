@@ -239,9 +239,30 @@ TextureImporter:
       name: Buildings_6
       rect:
         serializedVersion: 2
-        x: 48
+        x: 0
         y: 0
         width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3543d15cc44b68d42951022b2e6efcc1
+      internalID: -1235670357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Buildings_7
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -250,8 +271,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3543d15cc44b68d42951022b2e6efcc1
-      internalID: -1235670357
+      spriteID: 040cfcd5ceb566b45b519684a70637ab
+      internalID: 1487878287
       vertices: []
       indices: 
       edges: []
@@ -274,6 +295,7 @@ TextureImporter:
       Buildings_4: 77168603
       Buildings_5: 136923719
       Buildings_6: -1235670357
+      Buildings_7: 1487878287
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -11,6 +11,8 @@ public class Spawner : MonoBehaviour
     [Space]
     public GameObject monsterPrefab;
     public GameObject resourcePrefab;
+
+    public int enemySpawnAmount;
     [Space]
     [SerializeField] private Tilemap tilemap;
     [SerializeField] private List<Tile> tiles = new List<Tile>();
@@ -26,10 +28,7 @@ public class Spawner : MonoBehaviour
         Debug.DrawLine(bottomRight, bottomLeft, Color.green);
         Debug.DrawLine(bottomLeft, topLeft, Color.green);
 
-        // chooses the amount of enemy to be spawned
-        int enemySpawnAmount = Random.Range(10,21); // Range numbers are placeholders for now
-        // and runs the function that amount of time
-
+        
         for (int i = 0; i < enemySpawnAmount; i++)
         {
             SpawnMonster();
