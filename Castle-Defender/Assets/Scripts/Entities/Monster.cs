@@ -16,21 +16,21 @@ public class Monster : MonoBehaviour
     public float health;
     private float attackCooldown;
 
-    private GameObject enemyTarget;
+    private GameObject enemyTarget, mainBuilding;
 
     public Resource[] drops;
 
 
     private void Start() 
     {
-        enemyTarget = GameObject.Find("MainBuilding");
+        mainBuilding = GameObject.Find("MainBuilding");
+        enemyTarget = mainBuilding;
         resourceManager = FindObjectOfType<ResourceManager>();
         buildingManager = FindObjectOfType<BuildingManager>();
     }
 
     void Update()
     {
-        SelectState();
         UpdateState();
 
         enemyTarget = GetTarget();
@@ -45,12 +45,15 @@ public class Monster : MonoBehaviour
             currentState = EnemyState.Death;
             return;
         }
-        if (Vector2.Distance(enemyTarget.transform.position,transform.position) < 1)
+        if ((enemyTarget.transform.position - transform.position).sqrMagnitude < 1)
         {
             currentState = EnemyState.Attacking;
             return;
         }
-        currentState = EnemyState.Walking;
+        if (enemyTarget != null)
+        {
+            currentState = EnemyState.Walking;
+        }
     }
 
     void UpdateState()
@@ -76,6 +79,7 @@ public class Monster : MonoBehaviour
 
         transform.Translate(speed * Time.deltaTime * delta);
 
+        SelectState();
     }
 
     private void StartAttacking()
@@ -83,13 +87,16 @@ public class Monster : MonoBehaviour
         if (attackCooldown <= 0)
         {
             enemyTarget.GetComponent<IBuilding>().BuildingHealth -= 1;
+
             attackCooldown = 1;
         }
+
         if (enemyTarget.GetComponent<IBuilding>().BuildingHealth < 0)
         {
-            Destroy(enemyTarget);
-            currentState = EnemyState.Walking;
+            DestroyBuilding(enemyTarget);
         }
+
+        SelectState();
     }
     private void StartDeath()
     {
@@ -102,12 +109,12 @@ public class Monster : MonoBehaviour
     }
     GameObject GetTarget()
     {
-        GameObject target = null;
+        GameObject target = mainBuilding;
         foreach (Building building in buildingManager.Buildings)
         {
             if (building.buildingObject != null 
-            && Vector3.Distance(building.buildingObject.transform.position,transform.position) 
-            < Vector3.Distance(enemyTarget.transform.position,transform.position))
+            && (building.buildingObject.transform.position - transform.position).sqrMagnitude 
+            < (enemyTarget.transform.position - transform.position).sqrMagnitude)
             {
                 target = building.buildingObject;
             }
@@ -115,6 +122,12 @@ public class Monster : MonoBehaviour
         return target;
     }
 
+    void DestroyBuilding(GameObject building)
+    {
+        Destroy(building);
+        enemyTarget = mainBuilding;
+        currentState = EnemyState.Walking;
+    }
 
 }
     public enum EnemyState

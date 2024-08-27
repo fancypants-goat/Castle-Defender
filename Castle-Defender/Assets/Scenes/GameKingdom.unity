@@ -598,6 +598,10 @@ PrefabInstance:
       propertyPath: tilemap
       value: 
       objectReference: {fileID: 229503052}
+    - target: {fileID: 1590680071462961661, guid: 4f52204570ab89c49b2caa0aeb2625a8, type: 3}
+      propertyPath: enemySpawnAmount
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 4866725552661438591, guid: 4f52204570ab89c49b2caa0aeb2625a8, type: 3}
       propertyPath: m_Name
       value: Spawner

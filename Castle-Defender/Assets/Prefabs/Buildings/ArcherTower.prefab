@@ -47,6 +47,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingHealth: 20
+  range: 10
+  attackCooldown: 0
+  projectile: {fileID: 0}
+  spawner: {fileID: 0}
 --- !u!1 &8226570136364869607
 GameObject:
   m_ObjectHideFlags: 0

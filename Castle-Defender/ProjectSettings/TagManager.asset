@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Kingdom
   - Worker
+  - Enemy
   layers:
   - Default
   - TransparentFX

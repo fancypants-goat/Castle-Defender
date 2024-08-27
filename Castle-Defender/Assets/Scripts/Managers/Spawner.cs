@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour
     [Space]
     public GameObject monsterPrefab;
     public GameObject resourcePrefab;
-
+    public List<GameObject> enemies = new List<GameObject>();
     public int enemySpawnAmount;
     [Space]
     [SerializeField] private Tilemap tilemap;
@@ -46,7 +46,7 @@ public class Spawner : MonoBehaviour
         float y = Random.Range(bounds.bottom, bounds.top);
         Vector3 monsterPosition = new(x, y);
 
-        Instantiate(monsterPrefab, monsterPosition, Quaternion.identity);
+        enemies.Add(Instantiate(monsterPrefab, monsterPosition, Quaternion.identity));
     }
 
     private void SpawnResource()
